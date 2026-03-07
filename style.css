@@ -1,0 +1,151 @@
+/* Importar fuentes de Google */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Roboto:wght@300;400;500&display=swap');
+
+/* Variables de colores basados en tus imágenes */
+:root {
+    --color-primario: #c29d7e; /* El beige/marrón claro del menú */
+    --color-fondo: #f9f9f9;
+    --color-texto: #333333;
+    --color-blanco: #ffffff;
+    --fuente-titulos: 'Playfair Display', serif;
+    --fuente-texto: 'Roboto', sans-serif;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--fuente-texto);
+    color: var(--color-texto);
+    background-color: var(--color-fondo);
+    line-height: 1.6;
+}
+
+/* --- ENCABEZADO Y NAVEGACIÓN --- */
+header {
+    background-color: var(--color-primario);
+    padding: 1rem 5%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.logo-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--color-blanco);
+    font-family: var(--fuente-titulos);
+    font-size: 1.8rem;
+    font-weight: 700;
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+}
+
+nav ul li a {
+    color: var(--color-blanco);
+    text-decoration: none;
+    font-size: 0.95rem;
+    transition: opacity 0.3s;
+}
+
+nav ul li a:hover {
+    opacity: 0.7;
+}
+
+/* --- SECCIÓN HERO (Principal) --- */
+.hero {
+    /* Aquí pondremos una imagen de fondo después, por ahora un gris oscuro */
+    background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80') center/cover;
+    height: 80vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: var(--color-blanco);
+    padding: 0 20px;
+}
+
+.hero h1 {
+    font-family: var(--fuente-titulos);
+    font-size: 3.5rem;
+    margin-bottom: 20px;
+}
+
+.hero p {
+    font-size: 1.1rem;
+    max-width: 800px;
+    margin-bottom: 30px;
+}
+
+.btn-primario {
+    background-color: var(--color-primario);
+    color: var(--color-blanco);
+    padding: 12px 30px;
+    text-decoration: none;
+    border-radius: 25px;
+    font-weight: 500;
+    transition: background-color 0.3s;
+}
+
+.btn-primario:hover {
+    background-color: #a88467;
+}
+
+/* --- SECCIONES GENERALES --- */
+.seccion {
+    padding: 80px 10%;
+    text-align: center;
+}
+
+.seccion h2 {
+    font-family: var(--fuente-titulos);
+    font-size: 2.5rem;
+    color: var(--color-primario);
+    margin-bottom: 30px;
+}
+
+.seccion p {
+    max-width: 800px;
+    margin: 0 auto 30px auto;
+}
+
+.lista-viñetas {
+    list-style: none;
+    padding: 0;
+}
+
+.lista-viñetas li {
+    margin-bottom: 10px;
+    font-weight: 500;
+}
+
+/* --- PIE DE PÁGINA (Footer) --- */
+footer {
+    background-color: #222;
+    color: #fff;
+    text-align: center;
+    padding: 40px 20px 20px;
+}
+
+.footer-info {
+    margin-bottom: 20px;
+}
+
+.cookie-banner {
+    background-color: #111;
+    font-size: 0.8rem;
+    padding: 10px;
+    margin-top: 20px;
+}
