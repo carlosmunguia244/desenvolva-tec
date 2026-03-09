@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sobre nosotros - Desenvolvatec</title>
     <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 <body>
 
@@ -25,27 +26,60 @@
     </header>
 
     <main>
-        <section class="seccion" style="background-color: var(--color-primario); color: white; padding-top: 120px; padding-bottom: 60px;">
-            <h1 style="font-family: var(--fuente-titulos); font-size: 3rem; margin-bottom: 20px;">Sobre nosotros</h1>
-            <p style="color: white; font-size: 1.1rem; max-width: 800px; margin: 0 auto;">Desenvolvatec es una empresa de consultoría emocional que se especializa en la prevención de la deserción escolar y el fortalecimiento de la gestión emocional en adolescentes. Nuestro objetivo es ayudar a los jóvenes a desarrollar habilidades emocionales para mejorar su rendimiento académico y su bienestar personal.</p>
+        <section class="seccion" style="flex-direction: column; text-align: center; padding-top: 100px; padding-bottom: 40px; gap: 15px;">
+            <h1 style="color: var(--color-primario); font-size: 3.5rem; margin-bottom: 0;">Sobre nosotros</h1>
+            <p style="font-size: 1.2rem; max-width: 900px; color: var(--color-texto-gris);">Desenvolvatec es una empresa de consultoría emocional que se especializa en la prevención de la deserción escolar y el fortalecimiento de la gestión emocional en adolescentes. Nuestro objetivo es ayudar a los jóvenes a desarrollar habilidades emocionales para mejorar su rendimiento académico y su bienestar personal.</p>
         </section>
 
-        <section class="seccion" id="expertos-sobre-nosotros" style="background-color: #fff;">
-            <h2>Expertos en emociones</h2>
-            <p>En Desenvolvatec somos un equipo de profesionales altamente capacitados en el área de la consultoría emocional. Creemos firmemente en el poder de las emociones y su impacto en el bienestar y el éxito de los jóvenes.</p>
-            <p>Nuestra misión es brindar herramientas y acompañamiento a estudiantes, padres y educadores para promover un ambiente de aprendizaje saludable y positivo.</p>
+        <section class="seccion alterna">
+            <div class="imagen-seccion">
+                <img src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" 
+                     alt="Experta en emociones Desenvolvatec"
+                     style="height: 350px; object-fit: cover;">
+            </div>
+            <div class="texto-seccion">
+                <h2>Expertos en emociones</h2>
+                <p>En Desenvolvatec somos un equipo de profesionales altamente capacitados en el área de la consultoría emocional. Creemos firmemente en el poder de las emociones y su impacto en el bienestar y el éxito de los jóvenes.</p>
+                <p>Nuestra misión es brindar herramientas y acompañamiento a estudiantes, padres y educadores para promover un ambiente de aprendizaje saludable y positivo.</p>
+            </div>
         </section>
     </main>
 
     <footer>
-        <div class="footer-info">
-            <p><strong>Ubicación:</strong> Cuautitlán Izcalli, Estado de México</p>
-            <p><strong>Teléfono:</strong> (+34) 947 002 963</p>
-            <p><strong>Redes Sociales:</strong> @pagina_de_Facebook</p>
+        <div class="footer-container">
+            <div class="footer-columna">
+                <h4>Explora</h4>
+                <ul>
+                    <li><a href="index.html">Inicio</a></li>
+                    <li><a href="sobre-nosotros.html">Sobre nosotros</a></li>
+                    <li><a href="servicios.html">Servicios</a></li>
+                    <li><a href="testimonios.html">Testimonios</a></li>
+                    <li><a href="equipo.html">Nuestro equipo</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-columna">
+                <h4>Ayuda y Legal</h4>
+                <ul>
+                    <li><a href="#">Aviso de privacidad</a></li>
+                    <li><a href="#">Términos de uso</a></li>
+                    <li><a href="#">Política de cookies</a></li>
+                    <li><a href="contacto.html">Atención al cliente</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-columna">
+                <h4>Contacto</h4>
+                <ul class="footer-contacto-info">
+                    <li><span class="material-icons">location_on</span> Cuautitlán Izcalli, Méx.</li>
+                    <li><span class="material-icons">call</span> (+34) 947 002 963</li>
+                    <li><span class="material-icons">public</span> @pagina_de_Facebook</li>
+                </ul>
+            </div>
         </div>
-        
-        <div class="cookie-banner">
-            <p>Utilizamos cookies para permitir un correcto funcionamiento y seguro en nuestra página web, y para ofrecer la mejor experiencia posible al usuario. <a href="#" style="color: #c29d7e;">Puedes personalizar tus preferencias de cookies aquí.</a></p>
+
+        <div class="footer-bottom">
+            <p>&copy; 2026 Desenvolvatec. Todos los derechos reservados.</p>
         </div>
     </footer>
 

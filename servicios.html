@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Servicios - Desenvolvatec</title>
     <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 <body>
 
@@ -25,42 +26,82 @@
     </header>
 
     <main>
-        <section class="seccion" style="background-color: var(--color-primario); color: white; padding-top: 120px; padding-bottom: 60px;">
-            <h1 style="font-family: var(--fuente-titulos); font-size: 3rem; margin-bottom: 20px;">Nuestros Servicios</h1>
-            <p style="color: white; font-size: 1.1rem; max-width: 800px; margin: 0 auto;">Nos especializamos en la prevención de la deserción escolar, el refuerzo académico y el desarrollo de habilidades emocionales en adolescentes.</p>
+        <section class="seccion" style="flex-direction: column; text-align: center; padding-top: 100px; padding-bottom: 40px; gap: 15px;">
+            <h1 style="color: var(--color-primario); font-size: 3.5rem; margin-bottom: 0;">Nuestros Servicios</h1>
+            <p style="font-size: 1.2rem; max-width: 900px; color: var(--color-texto-gris);">Nos especializamos en la prevención de la deserción escolar brindando herramientas integrales que unen el refuerzo académico con el desarrollo de habilidades emocionales fundamentales.</p>
         </section>
 
-        <section class="seccion" style="background-color: var(--color-fondo);">
+        <section class="seccion alterna" style="padding-top: 40px; padding-bottom: 80px; flex-direction: column;">
             
-            <div class="cuadricula">
-                <div class="tarjeta">
+            <div class="cuadricula-servicios">
+                
+                <div class="tarjeta-servicio">
                     <h3>Asesoría emocional personalizada</h3>
-                    <p>"Me siento agradecido/a por haber encontrado una asesoría emocional personalizada que me ha ayudado a comprender y gestionar mejor mis emociones en situaciones difíciles."</p>
+                    <p class="descripcion">Sesiones individuales diseñadas para explorar a fondo las emociones del adolescente, brindando un espacio seguro de escucha activa y apoyo psicológico.</p>
+                    <div class="caja-beneficio">
+                        <strong><span class="material-icons" style="font-size: 1.1rem;">verified</span> Beneficio</strong>
+                        <p>Comprender y gestionar las emociones en situaciones difíciles para superar bloqueos y recuperar la motivación escolar.</p>
+                    </div>
                 </div>
 
-                <div class="tarjeta">
+                <div class="tarjeta-servicio">
                     <h3>Talleres de gestión emocional</h3>
-                    <p>"Los talleres de gestión emocional me han permitido aprender herramientas para controlar mis emociones y mejorar mi bienestar emocional en diferentes aspectos de mi vida."</p>
+                    <p class="descripcion">Dinámicas grupales y prácticas donde se enseñan herramientas clave para el manejo del estrés, la ansiedad, la frustración y la comunicación asertiva.</p>
+                    <div class="caja-beneficio">
+                        <strong><span class="material-icons" style="font-size: 1.1rem;">verified</span> Beneficio</strong>
+                        <p>Adquirir habilidades prácticas para controlar reacciones impulsivas y mejorar el bienestar emocional en el día a día.</p>
+                    </div>
                 </div>
 
-                <div class="tarjeta">
+                <div class="tarjeta-servicio">
                     <h3>Orientación académica y emocional</h3>
-                    <p>"La orientación académica y emocional es esencial para ayudarnos a tomar decisiones informadas sobre nuestros estudios y también para brindarnos el apoyo necesario en momentos de incertidumbre o dificultades emocionales."</p>
+                    <p class="descripcion">Acompañamiento integral que conecta el rendimiento escolar con la salud mental, ayudando a planificar rutinas de estudio sanas y decisiones de futuro.</p>
+                    <div class="caja-beneficio">
+                        <strong><span class="material-icons" style="font-size: 1.1rem;">verified</span> Beneficio</strong>
+                        <p>Recibir el apoyo necesario en momentos de incertidumbre para tomar decisiones informadas sobre los estudios y evitar el abandono.</p>
+                    </div>
                 </div>
+
             </div>
 
         </section>
     </main>
 
     <footer>
-        <div class="footer-info">
-            <p><strong>Ubicación:</strong> Cuautitlán Izcalli, Estado de México</p>
-            <p><strong>Teléfono:</strong> (+34) 947 002 963</p>
-            <p><strong>Redes Sociales:</strong> @pagina_de_Facebook</p>
+        <div class="footer-container">
+            <div class="footer-columna">
+                <h4>Explora</h4>
+                <ul>
+                    <li><a href="index.html">Inicio</a></li>
+                    <li><a href="sobre-nosotros.html">Sobre nosotros</a></li>
+                    <li><a href="servicios.html">Servicios</a></li>
+                    <li><a href="testimonios.html">Testimonios</a></li>
+                    <li><a href="equipo.html">Nuestro equipo</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-columna">
+                <h4>Ayuda y Legal</h4>
+                <ul>
+                    <li><a href="#">Aviso de privacidad</a></li>
+                    <li><a href="#">Términos de uso</a></li>
+                    <li><a href="#">Política de cookies</a></li>
+                    <li><a href="contacto.html">Atención al cliente</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-columna">
+                <h4>Contacto</h4>
+                <ul class="footer-contacto-info">
+                    <li><span class="material-icons">location_on</span> Cuautitlán Izcalli, Méx.</li>
+                    <li><span class="material-icons">call</span> (+34) 947 002 963</li>
+                    <li><span class="material-icons">public</span> @pagina_de_Facebook</li>
+                </ul>
+            </div>
         </div>
-        
-        <div class="cookie-banner">
-            <p>Utilizamos cookies para permitir un correcto funcionamiento y seguro en nuestra página web, y para ofrecer la mejor experiencia posible al usuario. <a href="#" style="color: #c29d7e;">Puedes personalizar tus preferencias de cookies aquí.</a></p>
+
+        <div class="footer-bottom">
+            <p>&copy; 2026 Desenvolvatec. Todos los derechos reservados.</p>
         </div>
     </footer>
 
