@@ -701,6 +701,12 @@ footer {
         text-align: center;
     }
 
+    /* Corrección para las opiniones en la página de Inicio */
+    .contenedor-opiniones {
+        flex-direction: column;
+        gap: 30px;
+    }
+
     .texto-seccion p {
         text-align: left; /* Mantenemos los párrafos legibles a la izquierda */
     }
@@ -740,3 +746,5 @@ footer {
         justify-content: center; /* Centramos los iconos y textos de contacto */
     }
 }
+
+/* 3. Secciones de 2 columnas
