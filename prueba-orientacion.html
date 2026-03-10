@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Orientación - Desemvolvatec</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="img/favicon.png" type="image/png">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+<body>
+
+    <header>
+        <div class="logo-container">
+            <span>Desemvolvatec</span>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="index.html">Inicio</a></li>
+                <li><a href="sobre-nosotros.html">Sobre nosotros</a></li>
+                <li><a href="servicios.html">Servicios</a></li>
+                <li><a href="testimonios.html">Testimonios</a></li>
+                <li><a href="equipo.html">Equipo</a></li>
+                <li><a href="contacto.html">Contacto</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="seccion" style="flex-direction: column; text-align: center; padding-top: 100px; padding-bottom: 10px;">
+            <h1 style="color: var(--color-primario); font-size: 2.5rem; margin-bottom: 10px;">Panel Académico y Emocional</h1>
+            <p style="color: var(--color-texto-gris); max-width: 700px; margin: 0 auto;">Explora cómo nuestros estudiantes visualizan su plan de estudio equilibrado y sus metas a futuro.</p>
+        </section>
+
+        <section style="padding: 0 5% 80px;">
+            <div class="dashboard-contenedor">
+                
+                <div class="dashboard-tarjeta">
+                    <div class="dashboard-header">
+                        <h2 class="dashboard-titulo"><span class="material-icons">calendar_month</span> Rutina Equilibrada Semanal</h2>
+                        <span style="background: var(--color-primario); color: white; padding: 5px 15px; border-radius: 20px; font-size: 0.8rem; font-weight: bold;">Semana 4</span>
+                    </div>
+
+                    <div class="calendario-semana">
+                        <div class="dia-columna">
+                            <div class="dia-nombre">Lunes</div>
+                            <div class="bloque-tarea">Clases (Mañana)</div>
+                            <div class="bloque-tarea">Proyecto Final</div>
+                            <div class="bloque-descanso"><span class="material-icons" style="font-size: 0.9rem; vertical-align: middle;">self_improvement</span> Pausa Activa</div>
+                        </div>
+                        <div class="dia-columna">
+                            <div class="dia-nombre">Martes</div>
+                            <div class="bloque-tarea">Clases (Mañana)</div>
+                            <div class="bloque-descanso"><span class="material-icons" style="font-size: 0.9rem; vertical-align: middle;">sports_esports</span> Tiempo Libre</div>
+                            <div class="bloque-tarea">Estudio Matemáticas</div>
+                        </div>
+                        <div class="dia-columna">
+                            <div class="dia-nombre">Miércoles</div>
+                            <div class="bloque-tarea">Clases (Mañana)</div>
+                            <div class="bloque-tarea">Taller Desemvolvatec</div>
+                            <div class="bloque-descanso"><span class="material-icons" style="font-size: 0.9rem; vertical-align: middle;">music_note</span> Relajación</div>
+                        </div>
+                        <div class="dia-columna">
+                            <div class="dia-nombre">Jueves</div>
+                            <div class="bloque-tarea">Clases (Mañana)</div>
+                            <div class="bloque-tarea">Repaso General</div>
+                            <div class="bloque-descanso"><span class="material-icons" style="font-size: 0.9rem; vertical-align: middle;">directions_walk</span> Ejercicio Físico</div>
+                        </div>
+                        <div class="dia-columna">
+                            <div class="dia-nombre">Viernes</div>
+                            <div class="bloque-tarea">Clases (Mañana)</div>
+                            <div class="bloque-descanso"><span class="material-icons" style="font-size: 0.9rem; vertical-align: middle;">celebration</span> Tarde Libre</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="display: flex; flex-direction: column; gap: 25px;">
+                    
+                    <div class="dashboard-tarjeta">
+                        <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 15px;">
+                            <div style="width: 50px; height: 50px; background: var(--color-primario); border-radius: 50%; display: flex; justify-content: center; align-items: center; color: white; font-size: 1.5rem; font-weight: bold;">C</div>
+                            <div>
+                                <h3 style="margin: 0; font-size: 1.1rem; color: var(--color-texto-principal);">Hola, Carlos</h3>
+                                <span style="color: var(--color-texto-gris); font-size: 0.85rem;">Perfil de Estudiante</span>
+                            </div>
+                        </div>
+
+                        <div class="medidor-estres-container">
+                            <div style="display: flex; justify-content: space-between; font-size: 0.85rem; color: var(--color-texto-gris); font-weight: 600;">
+                                <span>Sobrecarga Académica / Estrés</span>
+                                <span style="color: #27ae60;">Saludable (40%)</span>
+                            </div>
+                            <div class="barra-fondo">
+                                <div class="barra-nivel"></div>
+                            </div>
+                            <p style="font-size: 0.8rem; color: var(--color-texto-gris); margin-top: 10px;">¡Buen trabajo! Estás respetando tus bloques de descanso.</p>
+                        </div>
+                    </div>
+
+                    <div class="dashboard-tarjeta">
+                        <h2 class="dashboard-titulo"><span class="material-icons">explore</span> Orientación Vocacional</h2>
+                        <ul class="lista-metas">
+                            <li><span class="material-icons" style="color: #f39c12;">school</span> <strong>Meta a largo plazo:</strong> Ingeniería </li>
+                            <li><span class="material-icons" style="color: #3498db;">assignment</span> <strong>Próximo paso:</strong> Test de aptitudes universitarias (Pendiente)</li>
+                            <li><span class="material-icons" style="color: #2ecc71;">check_circle</span> <strong>Completado:</strong> Taller de manejo de frustración</li>
+                        </ul>
+                    </div>
+
+                </div>
+
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-container">
+            <div class="footer-columna">
+                <h4>Explora</h4>
+                <ul>
+                    <li><a href="index.html">Inicio</a></li>
+                    <li><a href="sobre-nosotros.html">Sobre nosotros</a></li>
+                    <li><a href="servicios.html">Servicios</a></li>
+                    <li><a href="testimonios.html">Testimonios</a></li>
+                    <li><a href="equipo.html">Nuestro equipo</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-columna">
+                <h4>Ayuda y Legal</h4>
+                <ul>
+                    <li><a href="#">Aviso de privacidad</a></li>
+                    <li><a href="#">Términos de uso</a></li>
+                    <li><a href="#">Política de cookies</a></li>
+                    <li><a href="contacto.html">Atención al cliente</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-columna">
+                <h4>Contacto</h4>
+                <ul class="footer-contacto-info">
+                    <li><span class="material-icons">location_on</span> Cuautitlán Izcalli, Méx.</li>
+                    <li><span class="material-icons">call</span> (+34) 947 002 963</li>
+                    <li><span class="material-icons">public</span> <a href="https://www.instagram.com/desenvolvatec0/" target="_blank">Síguenos en Instagram</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2026 Desemvolvatec. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+</body>
+</html>

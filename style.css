@@ -666,6 +666,404 @@ footer {
     transform: translateY(-2px);
 }
 
+/* --- BOTÓN DE PRUEBA DE SERVICIOS --- */
+.btn-prueba {
+    display: block;
+    margin-top: 20px;
+    padding: 12px 25px;
+    background-color: var(--color-primario);
+    color: var(--color-texto-secundario);
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    text-align: center;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.btn-prueba:hover {
+    background-color: #a67c52;
+    transform: translateY(-2px);
+    color: #ffffff;
+}
+
+/* --- INTERFAZ DE PRUEBA (CHAT Y HERRAMIENTAS) --- */
+.contenedor-interfaz {
+    display: flex;
+    max-width: 1000px;
+    margin: 40px auto;
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 5px 25px rgba(0,0,0,0.08);
+    border: 1px solid #eaeaea;
+    overflow: hidden;
+    min-height: 550px;
+}
+
+.sidebar-herramientas {
+    width: 280px;
+    background: #F9F6F3;
+    padding: 25px 20px;
+    border-right: 1px solid #eaeaea;
+}
+
+.sidebar-herramientas h4 {
+    color: var(--color-primario);
+    margin-bottom: 20px;
+    font-size: 1.1rem;
+}
+
+.lista-herramientas {
+    list-style: none;
+    padding: 0;
+}
+
+.lista-herramientas li {
+    padding: 12px 15px;
+    margin-bottom: 12px;
+    background: #ffffff;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: var(--color-texto-gris);
+    font-size: 0.95rem;
+    cursor: pointer;
+    border: 1px solid #eaeaea;
+    transition: all 0.2s ease;
+}
+
+.lista-herramientas li:hover {
+    border-color: var(--color-primario);
+    color: var(--color-primario);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.lista-herramientas .material-icons {
+    font-size: 1.2rem;
+}
+
+.area-chat {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    background: #fafafa;
+}
+
+.chat-header {
+    padding: 20px;
+    background: #ffffff;
+    border-bottom: 1px solid #eaeaea;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    font-weight: 600;
+    color: var(--color-texto-principal);
+}
+
+.chat-mensajes {
+    flex: 1;
+    padding: 25px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.mensaje {
+    max-width: 75%;
+    padding: 15px;
+    border-radius: 15px;
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+.mensaje-bot {
+    background: #ffffff;
+    border: 1px solid #eaeaea;
+    border-bottom-left-radius: 0;
+    align-self: flex-start;
+    color: var(--color-texto-principal);
+}
+
+.mensaje-user {
+    background: var(--color-primario);
+    color: #ffffff;
+    border-bottom-right-radius: 0;
+    align-self: flex-end;
+}
+
+.chat-input {
+    padding: 20px;
+    background: #ffffff;
+    border-top: 1px solid #eaeaea;
+    display: flex;
+    gap: 10px;
+}
+
+.chat-input input {
+    flex: 1;
+    padding: 12px 20px;
+    border: 1px solid #ddd;
+    border-radius: 25px;
+    outline: none;
+    font-family: var(--fuente-texto);
+}
+
+.chat-input button {
+    background: var(--color-primario);
+    color: #ffffff;
+    border: none;
+    padding: 10px 25px;
+    border-radius: 25px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background-color 0.2s ease;
+}
+
+.chat-input button:hover {
+    background: #a67c52;
+}
+
+/* --- INTERFAZ DE TALLER VIRTUAL --- */
+.taller-pantalla-dividida {
+    display: flex;
+    max-width: 1100px;
+    margin: 40px auto;
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 5px 25px rgba(0,0,0,0.08);
+    border: 1px solid #eaeaea;
+    overflow: hidden;
+    min-height: 600px;
+}
+
+.taller-video {
+    flex: 2;
+    background: #2c3e50; /* Un color oscuro para simular la pantalla */
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    padding: 40px;
+    text-align: center;
+}
+
+.taller-video-etiqueta {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    background: #e74c3c;
+    color: white;
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    animation: parpadeo 2s infinite;
+}
+
+@keyframes parpadeo {
+    0% { opacity: 1; }
+    50% { opacity: 0.6; }
+    100% { opacity: 1; }
+}
+
+.taller-panel-derecho {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    background: #fafafa;
+    border-left: 1px solid #eaeaea;
+    min-width: 320px;
+}
+
+.panel-pestanas {
+    display: flex;
+    border-bottom: 1px solid #eaeaea;
+}
+
+.pestana {
+    flex: 1;
+    text-align: center;
+    padding: 15px;
+    background: #ffffff;
+    font-weight: 600;
+    color: var(--color-texto-gris);
+    cursor: pointer;
+    border-bottom: 3px solid transparent;
+}
+
+.pestana.activa {
+    color: var(--color-primario);
+    border-bottom: 3px solid var(--color-primario);
+}
+
+.panel-contenido {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.mensaje-taller {
+    font-size: 0.9rem;
+    line-height: 1.4;
+}
+
+.mensaje-taller strong {
+    color: var(--color-primario);
+    display: block;
+    font-size: 0.85rem;
+    margin-bottom: 3px;
+}
+
+.encuesta-caja {
+    background: #ffffff;
+    border: 1px solid #eaeaea;
+    padding: 15px;
+    border-radius: 8px;
+    margin-top: 20px;
+}
+
+.encuesta-opcion {
+    display: flex;
+    justify-content: space-between;
+    background: #f0f0f0;
+    margin-bottom: 10px;
+    padding: 10px 15px;
+    border-radius: 5px;
+    font-size: 0.9rem;
+    cursor: pointer;
+}
+
+.encuesta-opcion:hover {
+    background: #e0e0e0;
+}
+
+/* --- INTERFAZ DE PANEL DE ORIENTACIÓN (DASHBOARD) --- */
+.dashboard-contenedor {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 25px;
+    max-width: 1100px;
+    margin: 40px auto;
+}
+
+.dashboard-tarjeta {
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 25px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+    border: 1px solid #eaeaea;
+}
+
+.dashboard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eaeaea;
+}
+
+.dashboard-titulo {
+    color: var(--color-primario);
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* Calendario equilibrado */
+.calendario-semana {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 10px;
+}
+
+.dia-columna {
+    background: #fdfbf9;
+    border: 1px solid #f0ebe1;
+    border-radius: 8px;
+    padding: 10px;
+    text-align: center;
+}
+
+.dia-nombre {
+    font-weight: 600;
+    color: var(--color-texto-gris);
+    font-size: 0.9rem;
+    margin-bottom: 15px;
+}
+
+.bloque-tarea {
+    background: #e8f4f8;
+    color: #2980b9;
+    border-radius: 6px;
+    padding: 8px 5px;
+    font-size: 0.75rem;
+    margin-bottom: 8px;
+    font-weight: 500;
+}
+
+.bloque-descanso {
+    background: #e8f8f5;
+    color: #27ae60;
+    border-radius: 6px;
+    padding: 8px 5px;
+    font-size: 0.75rem;
+    margin-bottom: 8px;
+    font-weight: 500;
+    border: 1px dashed #27ae60;
+}
+
+/* Medidor de Estrés */
+.medidor-estres-container {
+    margin-top: 20px;
+}
+
+.barra-fondo {
+    width: 100%;
+    height: 12px;
+    background: #ecf0f1;
+    border-radius: 10px;
+    overflow: hidden;
+    margin-top: 8px;
+}
+
+.barra-nivel {
+    height: 100%;
+    background: linear-gradient(90deg, #2ecc71, #f1c40f);
+    width: 40%; /* Nivel saludable */
+    border-radius: 10px;
+}
+
+/* Lista de Metas */
+.lista-metas {
+    list-style: none;
+    padding: 0;
+}
+
+.lista-metas li {
+    padding: 12px 0;
+    border-bottom: 1px solid #eaeaea;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.95rem;
+    color: var(--color-texto-principal);
+}
+
+.lista-metas li:last-child {
+    border-bottom: none;
+}
+
 /* =======================================================
    DISEÑO RESPONSIVO (OPTIMIZACIÓN PARA CELULARES Y TABLETS) - CORREGIDO
    ======================================================= */
@@ -760,3 +1158,29 @@ a[href^="sms"] {
         justify-content: center; /* Centramos los iconos y textos de contacto */
     }
 }
+
+/* Ajuste de la interfaz de prueba para celulares */
+    .contenedor-interfaz {
+        flex-direction: column;
+    }
+    .sidebar-herramientas {
+        width: 100%;
+        border-right: none;
+        border-bottom: 1px solid #eaeaea;
+    }
+
+    /* Ajuste del Taller virtual para celulares */
+    .taller-pantalla-dividida {
+        flex-direction: column;
+    }
+    .taller-video {
+        min-height: 300px;
+    }
+
+    /* Ajuste del Dashboard para celulares */
+    .dashboard-contenedor {
+        grid-template-columns: 1fr;
+    }
+    .calendario-semana {
+        grid-template-columns: 1fr;
+    }
