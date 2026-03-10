@@ -669,7 +669,13 @@ footer {
 /* =======================================================
    DISEÑO RESPONSIVO (OPTIMIZACIÓN PARA CELULARES Y TABLETS) - CORREGIDO
    ======================================================= */
-@media (max-width: 768px) {
+/* Prevenir que los teléfonos se pongan azules por defecto en celulares */
+a[href^="tel"], 
+a[href^="sms"] {
+    color: inherit !important;
+    text-decoration: none !important;
+}
+   @media (max-width: 768px) {
     
     /* 1. Encabezado y menú: Los apilamos para que no se salgan de la pantalla */
     header {
@@ -731,6 +737,14 @@ footer {
         gap: 40px;
     }
 
+    /* Centrar iconos y texto en la página de Contacto para móviles */
+    .lista-info-contacto li {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 8px;
+    }
+
     /* 6. Pie de página: Apilamos las 3 columnas */
     footer {
         padding: 40px 5% 20px;
@@ -746,5 +760,3 @@ footer {
         justify-content: center; /* Centramos los iconos y textos de contacto */
     }
 }
-
-/* 3. Secciones de 2 columnas
