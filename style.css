@@ -1063,7 +1063,6 @@ footer {
 .lista-metas li:last-child {
     border-bottom: none;
 }
-
 /* =======================================================
    DISEÑO RESPONSIVO (OPTIMIZACIÓN PARA CELULARES Y TABLETS) - CORREGIDO
    ======================================================= */
@@ -1073,7 +1072,8 @@ a[href^="sms"] {
     color: inherit !important;
     text-decoration: none !important;
 }
-   @media (max-width: 768px) {
+
+@media (max-width: 768px) {
     
     /* 1. Encabezado y menú: Los apilamos para que no se salgan de la pantalla */
     header {
@@ -1157,9 +1157,12 @@ a[href^="sms"] {
     .footer-contacto-info li {
         justify-content: center; /* Centramos los iconos y textos de contacto */
     }
-}
 
-/* Ajuste de la interfaz de prueba para celulares */
+    /* =======================================================
+       7. SIMULADORES - AJUSTES PARA MÓVILES
+       ======================================================= */
+       
+    /* Ajuste de la interfaz de prueba para celulares */
     .contenedor-interfaz {
         flex-direction: column;
     }
@@ -1177,10 +1180,47 @@ a[href^="sms"] {
         min-height: 300px;
     }
 
-    /* Ajuste del Dashboard para celulares */
+    /* Ajuste del Dashboard Académico para celulares (Diseño de tarjetas) */
     .dashboard-contenedor {
-        grid-template-columns: 1fr;
+        display: flex;
+        flex-direction: column;
+        gap: 25px;
     }
+    
     .calendario-semana {
-        grid-template-columns: 1fr;
+        display: flex;
+        flex-direction: column;
+        gap: 15px; /* Espacio entre los días de la semana */
     }
+    
+    /* Tarjeta individual para cada día de la semana */
+    .dia-columna {
+        background: #ffffff;
+        border: 1px solid #eaeaea;
+        border-radius: 10px;
+        padding: 15px;
+        text-align: left;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    }
+    
+    .dia-nombre {
+        font-size: 1.1rem;
+        color: var(--color-primario);
+        margin-bottom: 15px;
+        border-bottom: 1px solid #f0f0f0;
+        padding-bottom: 8px;
+    }
+    
+    /* Alinear los íconos con el texto en las tareas */
+    .bloque-tarea, 
+    .bloque-descanso {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        text-align: left;
+        padding: 10px;
+        margin-bottom: 10px;
+        font-size: 0.85rem;
+    }
+
+} /* <--- AQUÍ ESTÁ LA LLAVE DE CIERRE CORRECTA DEL MEDIA QUERY */
