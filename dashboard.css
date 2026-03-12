@@ -2,13 +2,22 @@
    ESTILOS ESPECÍFICOS PARA LA APLICACIÓN (DASHBOARD)
    ======================================================= */
 
+/* Reset fundamental para móviles: asegura que el padding no rompa el ancho/alto */
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+body, html {
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden; /* Evita que la pantalla se mueva hacia los lados */
+}
+
 .dashboard-body {
     background-color: #f4f6f8;
     display: flex;
     min-height: 100vh;
-    margin: 0;
     font-family: var(--fuente-texto), sans-serif;
-    overflow-x: hidden;
 }
 
 /* --- SIDEBAR --- */
@@ -19,10 +28,12 @@
     display: flex;
     flex-direction: column;
     flex-shrink: 0;
-    transition: margin-left 0.3s ease; /* Transición suave para ocultarlo */
+    transition: margin-left 0.3s ease, left 0.3s ease;
+    height: 100vh; /* Fuerza a tomar toda la altura de la ventana */
+    position: relative;
+    z-index: 1000;
 }
 
-/* Clase para ocultar el sidebar en computadora */
 .sidebar.colapsado {
     margin-left: -260px;
 }
@@ -39,6 +50,7 @@
 .sidebar-nav {
     padding: 20px 0;
     flex: 1;
+    overflow-y: auto; /* Por si agregas muchos menús */
 }
 
 .nav-item {
@@ -67,37 +79,29 @@
     flex: 1;
     display: flex;
     flex-direction: column;
-    transition: width 0.3s ease;
     width: 100%;
+    min-width: 0; /* Previene desbordamiento en flexbox */
 }
 
 /* --- HEADER SUPERIOR --- */
 .top-header {
     background: #ffffff;
-    min-height: 70px; /* Cambiado a min-height */
+    min-height: 70px; /* Cambiado de height fijo a min-height */
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 15px 30px; /* Padding ajustado */
+    padding: 15px 30px;
     border-bottom: 1px solid #e0e0e0;
-    box-sizing: border-box; /* Asegura que el padding no rompa el ancho */
+    width: 100%;
 }
 
 .header-izq {
     display: flex;
     align-items: center;
     gap: 15px;
-    flex: 1; /* Permite que tome el espacio necesario */
+    white-space: nowrap; /* Evita que los textos largos (como Volver al Panel) se partan */
 }
 
-.header-der {
-    display: flex;
-    align-items: center;
-    gap: 20px;
-    justify-content: flex-end; /* Alinea los íconos a la derecha */
-}
-
-/* ESTILOS DEL BOTÓN DE MENÚ Y TÍTULO */
 .menu-toggle {
     cursor: pointer;
     color: var(--color-texto-principal);
@@ -105,7 +109,7 @@
     padding: 4px;
     border-radius: 8px;
     transition: background 0.2s ease, color 0.2s ease;
-    user-select: none; /* Evita que se seleccione como texto */
+    user-select: none;
 }
 
 .menu-toggle:hover {
@@ -119,6 +123,12 @@
     color: var(--color-texto-principal);
     font-family: var(--fuente-titulos), serif;
     font-weight: bold;
+}
+
+.header-der {
+    display: flex;
+    align-items: center;
+    gap: 15px;
 }
 
 .icon-notif {
@@ -136,8 +146,8 @@
 }
 
 .user-avatar {
-    width: 35px;
-    height: 35px;
+    width: 40px; /* Tamaño un poco más firme */
+    height: 40px;
     background: var(--color-primario);
     color: white;
     border-radius: 50%;
@@ -145,6 +155,7 @@
     justify-content: center;
     align-items: center;
     font-weight: bold;
+    font-size: 1.1rem;
 }
 
 .user-name {
@@ -156,13 +167,13 @@
 .dropdown-menu {
     display: none;
     position: absolute;
-    top: 50px;
+    top: 55px;
     right: 0;
     background: white;
     border-radius: 8px;
     box-shadow: 0 5px 15px rgba(0,0,0,0.1);
     width: 200px;
-    z-index: 100;
+    z-index: 1000;
     border: 1px solid #f0f0f0;
 }
 
@@ -191,7 +202,7 @@
 .dashboard-grid {
     padding: 30px;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Reducido a 300px para adaptar mejor */
     gap: 25px;
 }
 
@@ -203,7 +214,6 @@
     border: 1px solid #eaeaea;
 }
 
-/* Tarjeta 1: Bienvenida */
 .card-welcome {
     background: linear-gradient(135deg, var(--color-primario) 0%, #8b6b4a 100%);
     color: white;
@@ -226,14 +236,12 @@
     line-height: 1.5;
 }
 
-/* Tarjeta 2: Progreso */
 .card-activity {
     display: flex;
     flex-direction: column;
     justify-content: center;
 }
 
-/* Barras de progreso */
 .progress-bar {
     width: 100%;
     height: 8px;
@@ -270,7 +278,6 @@
     padding-bottom: 0;
 }
 
-/* Tarjeta 3: Servicios Grid Interno */
 .services-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -296,7 +303,6 @@
     margin-bottom: 15px;
 }
 
-/* Botones pequeños */
 .btn-primary-small {
     background: var(--color-primario);
     color: white;
@@ -312,34 +318,43 @@
     background: #8b6b4a;
 }
 
-/* --- OVERLAY PARA CELULARES (Fondo oscuro al abrir sidebar) --- */
+/* --- OVERLAY PARA MÓVILES (Fondo oscuro) --- */
 .sidebar-overlay {
     display: none;
     position: fixed;
     top: 0;
     left: 0;
-    width: 100%;
-    height: 100%;
+    width: 100vw;
+    height: 100vh;
     background: rgba(0, 0, 0, 0.4);
-    z-index: 9998; /* Justo debajo del sidebar (9999) */
-    backdrop-filter: blur(2px); /* Efecto difuminado moderno */
+    z-index: 9998; /* Justo debajo del sidebar */
+    backdrop-filter: blur(2px);
 }
 
 .sidebar-overlay.active {
     display: block;
 }
 
-/* RESPONSIVO */
+/* =======================================================
+   RESPONSIVO (MÓVILES Y TABLETS PEQUEÑAS)
+   ======================================================= */
 @media (max-width: 768px) {
+    .top-header {
+        padding: 15px 20px; /* Reduce padding en celular */
+    }
+
+    .titulo-panel {
+        font-size: 1.2rem; /* Título un poco más pequeño para que quepa todo */
+    }
+
     .sidebar {
         position: fixed;
+        top: 0;
         left: -260px;
-        top: 0; /* Asegura que inicie desde arriba */
-        height: 100%; /* Ahora sí ocupará toda la pantalla hacia abajo */
-        min-height: 100vh;
-        z-index: 9999; /* Lo ponemos por encima de todo */
-        box-shadow: 2px 0 15px rgba(0,0,0,0.15); /* Sombra más fuerte */
+        bottom: 0; /* Asegura que llegue hasta abajo */
         margin-left: 0; 
+        z-index: 9999;
+        box-shadow: 2px 0 15px rgba(0,0,0,0.15);
     }
 
     .sidebar.active {
@@ -347,22 +362,15 @@
     }
 
     .user-name {
-        display: none; /* Oculta el nombre al lado del avatar para ahorrar espacio */
+        display: none; /* Oculta el texto "Charly" y deja solo la letra "C" */
+    }
+
+    .dropdown-menu {
+        right: -10px; /* Ajuste para que no se salga del lado derecho de la pantalla */
     }
 
     .dashboard-grid {
         padding: 20px;
-        grid-template-columns: 1fr;
-    }
-    
-    /* Arreglo para que el menú de cerrar sesión no se salga de la pantalla */
-    .dropdown-menu {
-        right: -10px; /* Ajuste para pantallas pequeñas */
-        top: 45px;
-    }
-    
-    /* Pequeño ajuste para los títulos largos en el header en celular */
-    .titulo-panel {
-        font-size: 1.2rem;
+        grid-template-columns: 1fr; /* Una sola columna en celular */
     }
 }

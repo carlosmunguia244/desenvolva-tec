@@ -8,164 +8,43 @@
     <link rel="stylesheet" href="dashboard.css">
     <link rel="icon" href="img/favicon.png" type="image/png">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    
     <style>
-        /* Estilos específicos para el Chat */
-        .chat-wrapper {
-            padding: 20px 30px;
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .chat-container {
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.03);
-            border: 1px solid #eaeaea;
-            display: flex;
-            flex-direction: column;
-            flex: 1;
-            max-height: calc(100vh - 130px);
-            overflow: hidden;
-        }
-
-        .chat-header {
-            padding: 20px;
-            background: #fdfbf9;
-            border-bottom: 1px solid #eaeaea;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .chat-avatar {
-            width: 45px;
-            height: 45px;
-            background: var(--color-primario);
-            color: white;
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 1.5rem;
-        }
-
-        .chat-messages {
-            flex: 1;
-            padding: 20px;
-            overflow-y: auto;
-            background: #ffffff;
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-
-        .mensaje {
-            max-width: 75%;
-            padding: 12px 18px;
-            border-radius: 15px;
-            font-size: 0.95rem;
-            line-height: 1.4;
-            animation: fadeIn 0.3s ease;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .mensaje-bot {
-            background: #f4f6f8;
-            border: 1px solid #eaeaea;
-            color: var(--color-texto-principal);
-            align-self: flex-start;
-            border-bottom-left-radius: 2px;
-        }
-
-        .mensaje-usuario {
-            background: var(--color-primario);
-            color: white;
-            align-self: flex-end;
-            border-bottom-right-radius: 2px;
-        }
-
-        .chat-input-area {
-            padding: 15px 20px;
-            background: #fdfbf9;
-            border-top: 1px solid #eaeaea;
-            display: flex;
-            gap: 10px;
-        }
-
-        .chat-input-area input {
-            flex: 1;
-            padding: 12px 20px;
-            border: 1px solid #ddd;
-            border-radius: 25px;
-            outline: none;
-            font-family: var(--fuente-texto);
-            font-size: 0.95rem;
-            transition: border-color 0.3s;
-        }
-
-        .chat-input-area input:focus {
-            border-color: var(--color-primario);
-        }
-
-        .chat-input-area button {
-            background: var(--color-primario);
-            color: white;
-            border: none;
-            width: 46px;
-            height: 46px;
-            border-radius: 50%;
-            cursor: pointer;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            transition: background 0.3s;
-        }
-
-        .chat-input-area button:hover {
-            background: #8b6b4a;
-        }
-
-        /* Escribiendo animación */
-        .escribiendo {
-            font-size: 0.85rem;
-            color: #888;
-            font-style: italic;
-            display: none;
-            margin-bottom: 5px;
-            align-self: flex-start;
-        }
+        .chat-wrapper { padding: 20px 30px; flex: 1; display: flex; flex-direction: column; }
+        @media (max-width: 768px) { .chat-wrapper { padding: 15px; } }
+        .chat-container { background: white; border-radius: 12px; border: 1px solid #eaeaea; display: flex; flex-direction: column; flex: 1; max-height: calc(100vh - 120px); overflow: hidden; }
+        .chat-header { padding: 15px 20px; background: #fdfbf9; border-bottom: 1px solid #eaeaea; display: flex; align-items: center; gap: 15px; }
+        .chat-avatar { width: 45px; height: 45px; background: var(--color-primario); color: white; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 1.5rem; }
+        .chat-messages { flex: 1; padding: 20px; overflow-y: auto; background: #ffffff; display: flex; flex-direction: column; gap: 15px; }
+        .mensaje { max-width: 80%; padding: 12px 18px; border-radius: 15px; font-size: 0.95rem; line-height: 1.4; animation: fadeIn 0.3s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .mensaje-bot { background: #f4f6f8; border: 1px solid #eaeaea; color: var(--color-texto-principal); align-self: flex-start; border-bottom-left-radius: 2px; }
+        .mensaje-usuario { background: var(--color-primario); color: white; align-self: flex-end; border-bottom-right-radius: 2px; }
+        .chat-input-area { padding: 10px 15px; background: #fdfbf9; border-top: 1px solid #eaeaea; display: flex; gap: 10px; }
+        .chat-input-area input { flex: 1; padding: 12px 20px; border: 1px solid #ddd; border-radius: 25px; outline: none; font-family: var(--fuente-texto); transition: border-color 0.3s; }
+        .chat-input-area input:focus { border-color: var(--color-primario); }
+        .chat-input-area button { background: var(--color-primario); color: white; border: none; width: 46px; height: 46px; border-radius: 50%; cursor: pointer; display: flex; justify-content: center; align-items: center; }
+        .escribiendo { font-size: 0.85rem; color: #888; font-style: italic; display: none; margin-bottom: 5px; align-self: flex-start; margin-left: 20px; }
     </style>
 </head>
 <body class="dashboard-body">
 
     <aside class="sidebar" id="sidebar">
-        <div class="sidebar-logo">
-            <span>Desemvolvatec</span>
-        </div>
+        <div class="sidebar-logo"><span>Desemvolvatec</span></div>
         <nav class="sidebar-nav">
             <a href="dashboard.html" class="nav-item"><span class="material-icons">dashboard</span> Inicio</a>
-            <a href="#" class="nav-item activo"><span class="material-icons">support_agent</span> Asesoría Individual</a>
-            <a href="#" class="nav-item"><span class="material-icons">groups</span> Talleres Grupales</a>
+            <a href="#" class="nav-item activo"><span class="material-icons">support_agent</span> Asesoría</a>
             <a href="rutina.html" class="nav-item"><span class="material-icons">calendar_month</span> Mi Rutina</a>
         </nav>
     </aside>
 
     <main class="main-content">
-        
         <header class="top-header">
             <div class="header-izq">
                 <span class="material-icons menu-toggle" onclick="toggleSidebar()">menu</span>
-                <a href="dashboard.html" style="text-decoration: none; color: var(--color-texto-gris); display: flex; align-items: center; gap: 8px; font-weight: 500;">
-                    <span class="material-icons">arrow_back</span> Volver al Panel
+                <a href="dashboard.html" style="text-decoration: none; color: var(--color-texto-gris); display: flex; align-items: center; gap: 8px; font-weight: 500; white-space: nowrap;">
+                    <span class="material-icons">arrow_back</span> <span class="user-name">Volver al Panel</span>
                 </a>
             </div>
-            
             <div class="header-der">
                 <div class="user-avatar" id="nav-avatar">U</div>
             </div>
@@ -173,25 +52,19 @@
 
         <div class="chat-wrapper">
             <div class="chat-container">
-                
                 <div class="chat-header">
                     <div class="chat-avatar"><span class="material-icons">face_4</span></div>
                     <div>
                         <h3 style="margin: 0; color: var(--color-primario); font-size: 1.1rem;">Diana Urban</h3>
-                        <span style="font-size: 0.8rem; color: #2ecc71;">● En línea (Orientadora)</span>
+                        <span style="font-size: 0.8rem; color: #2ecc71;">● En línea</span>
                     </div>
                 </div>
-                
-                <div class="chat-messages" id="chat-caja">
-                    </div>
-                
-                <div class="escribiendo" id="indicador-escribiendo" style="margin-left: 20px; margin-bottom: 10px;">Diana está escribiendo...</div>
-
+                <div class="chat-messages" id="chat-caja"></div>
+                <div class="escribiendo" id="indicador-escribiendo">Diana está escribiendo...</div>
                 <div class="chat-input-area">
-                    <input type="text" id="input-mensaje" placeholder="Escribe tu mensaje aquí..." onkeypress="if(event.key === 'Enter') enviarMensaje()">
+                    <input type="text" id="input-mensaje" placeholder="Escribe aquí..." onkeypress="if(event.key === 'Enter') enviarMensaje()">
                     <button onclick="enviarMensaje()"><span class="material-icons">send</span></button>
                 </div>
-
             </div>
         </div>
     </main>
@@ -200,7 +73,6 @@
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
         import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
 
-        // TUS LLAVES DE FIREBASE
         const firebaseConfig = {
             apiKey: "AIzaSyArxvBjK5d9PzmOEbuuRyVVu9MuhtKmd_Q",
             authDomain: "desemvolvatec.firebaseapp.com",
@@ -213,128 +85,83 @@
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
 
-        // Variables globales para el chat
         let nombreEstudiante = "";
         const cajaChat = document.getElementById('chat-caja');
         const inputMensaje = document.getElementById('input-mensaje');
         const indicadorEscribiendo = document.getElementById('indicador-escribiendo');
-
-        // Función auxiliar para crear pausas (simular que piensa/escribe)
         const esperar = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
-        // 1. CARGAR DATOS DEL USUARIO
         onAuthStateChanged(auth, (user) => {
             if (user) {
                 nombreEstudiante = user.displayName || user.email.split('@')[0];
-                const inicial = nombreEstudiante.charAt(0).toUpperCase();
-                document.getElementById('nav-avatar').innerText = inicial;
-                
-                // Disparamos el saludo personalizado con animaciones
+                document.getElementById('nav-avatar').innerText = nombreEstudiante.charAt(0).toUpperCase();
                 iniciarChat();
             } else {
                 window.location.href = "login.html";
             }
         });
 
-        // 2. LÓGICA DEL CHAT (Presentación secuencial)
         async function iniciarChat() {
-            // Espera medio segundo al entrar a la página
             await esperar(500);
-
-            // --- Mensaje 1: Presentación ---
             indicadorEscribiendo.style.display = "block";
-            cajaChat.scrollTop = cajaChat.scrollHeight;
-            await esperar(1500); // Tarda 1.5 segundos en "escribir"
+            await esperar(1500);
             indicadorEscribiendo.style.display = "none";
             agregarMensaje('bot', `¡Hola, ${nombreEstudiante}! 👋 Soy Diana Urban, tu orientadora virtual en Desemvolvatec.`);
-
-            // --- Mensaje 2: El propósito del espacio ---
-            await esperar(800); // Pausa para que el usuario lea
+            
+            await esperar(800);
             indicadorEscribiendo.style.display = "block";
-            cajaChat.scrollTop = cajaChat.scrollHeight;
-            await esperar(2000); // Tarda 2 segundos en "escribir" esto que es más largo
+            await esperar(2000);
             indicadorEscribiendo.style.display = "none";
-            agregarMensaje('bot', `Este es un espacio seguro y totalmente confidencial, creado para escucharte y apoyarte en tu desarrollo académico y emocional.`);
-
-            // --- Mensaje 3: La pregunta de ayuda ---
+            agregarMensaje('bot', `Este es un espacio seguro y totalmente confidencial para apoyarte en tu desarrollo académico y emocional.`);
+            
             await esperar(1000);
             indicadorEscribiendo.style.display = "block";
-            cajaChat.scrollTop = cajaChat.scrollHeight;
             await esperar(1200);
             indicadorEscribiendo.style.display = "none";
             agregarMensaje('bot', `¿En qué te puedo ayudar el día de hoy?`);
         }
 
-        // Exponer la función al entorno global para el botón HTML
         window.enviarMensaje = function() {
             const texto = inputMensaje.value.trim();
             if (texto === "") return;
-
-            // 1. Mostrar mensaje del usuario
             agregarMensaje('usuario', texto);
             inputMensaje.value = "";
-
-            // 2. Simular que Diana escribe y responde
             indicadorEscribiendo.style.display = "block";
             cajaChat.scrollTop = cajaChat.scrollHeight;
-
             setTimeout(() => {
                 indicadorEscribiendo.style.display = "none";
                 responderComoDiana(texto);
-            }, 1500 + Math.random() * 1000); // Retardo aleatorio para mayor realismo
+            }, 1500 + Math.random() * 1000);
         };
 
         function agregarMensaje(emisor, texto) {
             const div = document.createElement('div');
-            div.classList.add('mensaje');
-            div.classList.add(emisor === 'bot' ? 'mensaje-bot' : 'mensaje-usuario');
+            div.classList.add('mensaje', emisor === 'bot' ? 'mensaje-bot' : 'mensaje-usuario');
             div.innerText = texto;
             cajaChat.appendChild(div);
-            // Hacer scroll hacia abajo automáticamente
             cajaChat.scrollTop = cajaChat.scrollHeight;
         }
 
-        // Cerebro simulado de Diana
         function responderComoDiana(mensajeUsuario) {
             const texto = mensajeUsuario.toLowerCase();
-            let respuesta = "";
-
-            if (texto.includes("estres") || texto.includes("estrés") || texto.includes("cansado") || texto.includes("presion")) {
-                respuesta = `Es completamente normal sentirse así, ${nombreEstudiante}. La carga académica puede ser abrumadora. ¿Has intentado hacer pausas activas o te gustaría que revisemos tu técnica de estudio?`;
-            } else if (texto.includes("examen") || texto.includes("proyecto") || texto.includes("calificaciones")) {
-                respuesta = "Las evaluaciones suelen generar mucha ansiedad. Recuerda que una nota no define tu valor. Vamos a enfocarnos en lo que sí puedes controlar: tu preparación. ¿Cómo estás organizando tu tiempo?";
-            } else if (texto.includes("triste") || texto.includes("mal") || texto.includes("ansiedad")) {
-                respuesta = "Siento mucho que te sientas así. Reconocerlo es un gran primer paso. Estoy aquí para escucharte sin juzgarte. ¿Hay algo en particular que haya detonado este sentimiento?";
-            } else if (texto.includes("bien") || texto.includes("mejor") || texto.includes("gracias")) {
-                respuesta = "¡Me alegra muchísimo leer eso! Celebrar los buenos momentos y los pequeños avances es fundamental. ¿Qué crees que te ha ayudado a sentirte mejor últimamente?";
-            } else {
-                respuesta = "Entiendo lo que me dices. A veces es difícil poner en palabras todo lo que pasa por nuestra cabeza. Cuéntame un poco más sobre eso, estoy aquí para apoyarte.";
-            }
-
+            let respuesta = "Entiendo. Cuéntame un poco más sobre eso, estoy aquí para apoyarte.";
+            if (texto.includes("estres") || texto.includes("cansado")) respuesta = `Es normal sentirse así, ${nombreEstudiante}. ¿Has intentado hacer pausas activas?`;
+            else if (texto.includes("examen") || texto.includes("proyecto")) respuesta = "Las evaluaciones generan ansiedad. Enfócate en tu preparación. ¿Cómo organizas tu tiempo?";
             agregarMensaje('bot', respuesta);
         }
 
-        // Lógica del menú móvil (Sidebar)
         window.toggleSidebar = function() {
             const sidebar = document.getElementById('sidebar');
-            // --- NUEVO: Buscamos o creamos el fondo oscuro ---
             let overlay = document.getElementById('sidebar-overlay');
             if (!overlay) {
                 overlay = document.createElement('div');
                 overlay.id = 'sidebar-overlay';
                 overlay.className = 'sidebar-overlay';
                 document.body.appendChild(overlay);
-                // Si tocan lo oscuro, se cierra el menú
-                overlay.onclick = toggleSidebar; 
+                overlay.onclick = window.toggleSidebar; 
             }
-
-            if (window.innerWidth > 768) {
-                sidebar.classList.toggle('colapsado');
-            } else {
-                sidebar.classList.toggle('active');
-                // --- NUEVO: Mostramos/Ocultamos el fondo oscuro ---
-                overlay.classList.toggle('active');
-            }
+            if (window.innerWidth > 768) { sidebar.classList.toggle('colapsado'); } 
+            else { sidebar.classList.toggle('active'); overlay.classList.toggle('active'); }
         };
     </script>
 </body>
