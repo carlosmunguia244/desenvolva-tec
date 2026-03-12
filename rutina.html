@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Rutina - Desemvolvatec</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="dashboard.css">
+    <link rel="icon" href="img/favicon.png" type="image/png">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        /* Estilos específicos para la lista de tareas de la rutina */
+        .rutina-card {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .rutina-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .checklist-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        /* Diseño de los checkboxes para que se vean modernos y fáciles de tocar en celular */
+        .habit-item {
+            display: flex;
+            align-items: center;
+            padding: 15px 20px;
+            background: #fdfbf9;
+            border: 1px solid #eaeaea;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .habit-item:hover {
+            background: #f0e6da;
+            border-color: var(--color-primario);
+        }
+
+        .habit-item input[type="checkbox"] {
+            width: 22px;
+            height: 22px;
+            margin-right: 15px;
+            cursor: pointer;
+            accent-color: var(--color-primario);
+        }
+
+        .habit-item span {
+            font-size: 1.05rem;
+            color: var(--color-texto-principal);
+            flex: 1;
+        }
+
+        /* Barra de progreso local de la rutina */
+        .rutina-progress-wrapper {
+            background: #f4f6f8;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .rutina-progress-text {
+            font-weight: bold;
+            color: var(--color-primario);
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+        }
+
+        .btn-save-rutina {
+            background: var(--color-primario);
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            transition: background 0.3s;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-save-rutina:hover {
+            background: #8b6b4a;
+        }
+    </style>
+</head>
+<body class="dashboard-body">
+
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-logo"><span>Desemvolvatec</span></div>
+        <nav class="sidebar-nav">
+            <a href="dashboard.html" class="nav-item"><span class="material-icons">dashboard</span> Inicio</a>
+            <a href="asesoria.html" class="nav-item"><span class="material-icons">support_agent</span> Asesoría</a>
+            <a href="#" class="nav-item activo"><span class="material-icons">calendar_month</span> Mi Rutina</a>
+        </nav>
+    </aside>
+
+    <main class="main-content">
+        <header class="top-header">
+            <div class="header-izq">
+                <span class="material-icons menu-toggle" onclick="toggleSidebar()">menu</span>
+                <a href="dashboard.html" style="text-decoration: none; color: var(--color-texto-gris); display: flex; align-items: center; gap: 8px; font-weight: 500; white-space: nowrap;">
+                    <span class="material-icons">arrow_back</span> <span class="user-name">Volver al Panel</span>
+                </a>
+            </div>
+            <div class="header-der">
+                <div class="user-avatar" id="nav-avatar">U</div>
+            </div>
+        </header>
+
+        <div class="dashboard-grid" style="display: block;">
+            <div class="card rutina-card">
+                
+                <div class="rutina-header">
+                    <h2 style="color: var(--color-primario); margin-top: 0; font-family: var(--fuente-titulos); font-size: 1.8rem;">Hábitos contra el Estrés</h2>
+                    <p style="color: var(--color-texto-gris); font-size: 0.95rem;">Marca tus tareas diarias para aumentar tu nivel de resiliencia y gestión del estrés.</p>
+                </div>
+
+                <div class="rutina-progress-wrapper">
+                    <div class="rutina-progress-text" id="texto-porcentaje">0% Completado</div>
+                    <div class="progress-bar" style="height: 12px; margin-bottom: 0;">
+                        <div class="progress-fill" id="barra-porcentaje" style="width: 0%; transition: width 0.4s ease;"></div>
+                    </div>
+                </div>
+
+                <div class="checklist-container" id="lista-habitos">
+                    <label class="habit-item">
+                        <input type="checkbox" class="check-habito" value="25">
+                        <span>💧 Tomar 2 litros de agua en el día</span>
+                    </label>
+                    <label class="habit-item">
+                        <input type="checkbox" class="check-habito" value="25">
+                        <span>🧘‍♀️ Tomar un descanso activo de 10 min</span>
+                    </label>
+                    <label class="habit-item">
+                        <input type="checkbox" class="check-habito" value="25">
+                        <span>📚 Estudiar 1 hora sin distracciones (Pomodoro)</span>
+                    </label>
+                    <label class="habit-item">
+                        <input type="checkbox" class="check-habito" value="25">
+                        <span>💤 Dormir al menos 7 horas anoche</span>
+                    </label>
+                </div>
+
+                <button class="btn-save-rutina" id="btn-guardar">
+                    <span class="material-icons">save</span> Guardar Progreso
+                </button>
+
+            </div>
+        </div>
+    </main>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyArxvBjK5d9PzmOEbuuRyVVu9MuhtKmd_Q",
+            authDomain: "desemvolvatec.firebaseapp.com",
+            projectId: "desemvolvatec",
+            storageBucket: "desemvolvatec.firebasestorage.app",
+            messagingSenderId: "559151091877",
+            appId: "1:559151091877:web:ce2c950ab284c8cc5a3d4c"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        
+        let usuarioID = ""; // Aquí guardaremos el ID único del usuario para guardar sus datos
+
+        // 1. CARGAR DATOS DEL USUARIO
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                const nombreUsuario = user.displayName || user.email.split('@')[0];
+                document.getElementById('nav-avatar').innerText = nombreUsuario.charAt(0).toUpperCase();
+                usuarioID = user.uid; // Tomamos su ID único de Firebase
+                
+                // Cargamos el progreso guardado anteriormente (si existe)
+                cargarProgreso();
+            } else {
+                window.location.href = "login.html";
+            }
+        });
+
+        // 2. LÓGICA DE LA BARRA DE PROGRESO
+        const checkboxes = document.querySelectorAll('.check-habito');
+        const barraPorcentaje = document.getElementById('barra-porcentaje');
+        const textoPorcentaje = document.getElementById('texto-porcentaje');
+        const btnGuardar = document.getElementById('btn-guardar');
+
+        // Función que calcula cuánto llevamos basado en qué cajas están marcadas
+        function calcularProgreso() {
+            let total = 0;
+            checkboxes.forEach(box => {
+                if (box.checked) {
+                    total += parseInt(box.value);
+                }
+            });
+            
+            // Actualizamos la interfaz
+            barraPorcentaje.style.width = `${total}%`;
+            textoPorcentaje.innerText = `${total}% Completado`;
+            
+            // Si llega a 100, cambiamos el color a verde brillante
+            if (total === 100) {
+                barraPorcentaje.style.background = "#2ecc71";
+            } else {
+                barraPorcentaje.style.background = "var(--color-primario)";
+            }
+            
+            return total;
+        }
+
+        // Cada vez que hagan clic en un checkbox, recalculamos
+        checkboxes.forEach(box => {
+            box.addEventListener('change', calcularProgreso);
+        });
+
+        // 3. GUARDAR EL PROGRESO
+        btnGuardar.addEventListener('click', () => {
+            const progresoActual = calcularProgreso();
+            
+            // Guardamos el porcentaje en el almacenamiento local de este dispositivo, amarrado al ID del usuario
+            localStorage.setItem(`progresoEstres_${usuarioID}`, progresoActual);
+            
+            // Cambiamos el texto del botón temporalmente
+            const textoOriginal = btnGuardar.innerHTML;
+            btnGuardar.innerHTML = `<span class="material-icons">check_circle</span> ¡Progreso Guardado!`;
+            btnGuardar.style.background = "#2ecc71";
+            
+            setTimeout(() => {
+                btnGuardar.innerHTML = textoOriginal;
+                btnGuardar.style.background = "var(--color-primario)";
+            }, 2000);
+        });
+
+        // 4. CARGAR EL PROGRESO AL INICIAR
+        function cargarProgreso() {
+            // Buscamos si este usuario ya había guardado algo
+            const progresoGuardado = localStorage.getItem(`progresoEstres_${usuarioID}`);
+            
+            if (progresoGuardado) {
+                // Simulamos marcar las cajas necesarias para llegar a ese porcentaje
+                let valorNecesario = parseInt(progresoGuardado);
+                checkboxes.forEach(box => {
+                    if (valorNecesario > 0) {
+                        box.checked = true;
+                        valorNecesario -= parseInt(box.value);
+                    }
+                });
+                calcularProgreso(); // Actualizamos la barra visual
+            }
+        }
+
+        // Lógica del Sidebar móvil
+        window.toggleSidebar = function() {
+            const sidebar = document.getElementById('sidebar');
+            let overlay = document.getElementById('sidebar-overlay');
+            if (!overlay) {
+                overlay = document.createElement('div');
+                overlay.id = 'sidebar-overlay';
+                overlay.className = 'sidebar-overlay';
+                document.body.appendChild(overlay);
+                overlay.onclick = window.toggleSidebar; 
+            }
+            if (window.innerWidth > 768) { sidebar.classList.toggle('colapsado'); } 
+            else { sidebar.classList.toggle('active'); overlay.classList.toggle('active'); }
+        };
+    </script>
+</body>
+</html>
