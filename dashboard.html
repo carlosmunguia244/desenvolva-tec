@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Panel - Desemvolvatec</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="dashboard.css">
+    <link rel="icon" href="img/favicon.png" type="image/png">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+<body class="dashboard-body">
+
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-logo">
+            <span>Desemvolvatec</span>
+        </div>
+        <nav class="sidebar-nav">
+            <a href="#" class="nav-item activo"><span class="material-icons">dashboard</span> Inicio</a>
+            <a href="#" class="nav-item"><span class="material-icons">view_module</span> Servicios</a>
+            <a href="#" class="nav-item"><span class="material-icons">help_outline</span> Soporte</a>
+            <a href="#" class="nav-item"><span class="material-icons">settings</span> Configuración</a>
+        </nav>
+    </aside>
+
+    <main class="main-content" id="main-content">
+        
+        <header class="top-header">
+            <div class="header-izq">
+                <span class="material-icons menu-toggle" onclick="toggleSidebar()">menu</span>
+                <h2 class="titulo-panel">Mi Panel</h2>
+            </div>
+            
+            <div class="header-der">
+                <span class="material-icons icon-notif">notifications</span>
+                
+                <div class="user-menu" onclick="toggleDropdown()">
+                    <div class="user-avatar" id="nav-avatar">U</div>
+                    <span class="user-name" id="nav-name">Cargando...</span>
+                    <span class="material-icons">expand_more</span>
+                    
+                    <div class="dropdown-menu" id="user-dropdown">
+                        <a href="perfil.html"><span class="material-icons">person</span> Ver perfil</a>
+                        <a href="#"><span class="material-icons">manage_accounts</span> Configuración</a>
+                        <div class="dropdown-divider"></div>
+                        <a href="#" id="btn-logout" style="color: #e74c3c;"><span class="material-icons">logout</span> Cerrar sesión</a>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <div class="dashboard-grid">
+            
+            <div class="card card-welcome">
+                <h1 id="welcome-message">¡Hola, estudiante!</h1>
+                <p>Bienvenido a tu espacio seguro. Aquí puedes continuar con tu progreso emocional y académico.</p>
+            </div>
+
+            <div class="card card-activity">
+                <h3 style="margin-top: 0; color: var(--color-primario); font-size: 1.1rem; margin-bottom: 20px;">Tu Progreso</h3>
+                <div class="progress-container">
+                    <div style="display: flex; justify-content: space-between; font-size: 0.9rem; margin-bottom: 5px; color: var(--color-texto-principal);">
+                        <span>Gestión de estrés</span>
+                        <strong>75%</strong>
+                    </div>
+                    <div class="progress-bar"><div class="progress-fill" style="width: 75%;"></div></div>
+                </div>
+                <ul class="activity-list">
+                    <li><span class="material-icons" style="color: #2ecc71;">check_circle</span> Completaste: Taller de Semáforo</li>
+                    <li><span class="material-icons" style="color: #3498db;">schedule</span> Próxima sesión: Asesoría individual</li>
+                </ul>
+            </div>
+
+            <div class="card card-services" style="grid-column: 1 / -1;">
+                <h3 style="margin-top: 0; color: var(--color-primario); font-size: 1.1rem; margin-bottom: 20px;">Servicios Disponibles</h3>
+                <div class="services-grid">
+                    <div class="service-module">
+                        <span class="material-icons" style="color: var(--color-primario); font-size: 2rem;">support_agent</span>
+                        <h4>Asesoría Individual</h4>
+                        <p>Habla con un profesional en un entorno 1 a 1.</p>
+                        <button class="btn-primary-small" onclick="window.location.href='asesoria.html'">Entrar</button>
+                    </div>
+                    <div class="service-module">
+                        <span class="material-icons" style="color: var(--color-primario); font-size: 2rem;">groups</span>
+                        <h4>Talleres Grupales</h4>
+                        <p>Aprende técnicas con otros estudiantes.</p>
+                        <button class="btn-primary-small" onclick="window.location.href='talleres.html'">Ver calendario</button>
+                    </div>
+                    <div class="service-module">
+                        <span class="material-icons" style="color: var(--color-primario); font-size: 2rem;">calendar_month</span>
+                        <h4>Mi Rutina</h4>
+                        <p>Organiza tus estudios y descansos.</p>
+                        <button class="btn-primary-small" onclick="window.location.href='rutina.html'">Abrir panel</button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+        import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+
+        // TUS LLAVES DE FIREBASE
+        const firebaseConfig = {
+            apiKey: "AIzaSyArxvBjK5d9PzmOEbuuRyVVu9MuhtKmd_Q",
+            authDomain: "desemvolvatec.firebaseapp.com",
+            projectId: "desemvolvatec",
+            storageBucket: "desemvolvatec.firebasestorage.app",
+            messagingSenderId: "559151091877",
+            appId: "1:559151091877:web:ce2c950ab284c8cc5a3d4c"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+
+        // GUARDIÁN DE RUTA
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                const nombreUsuario = user.displayName || user.email.split('@')[0];
+                const inicial = nombreUsuario.charAt(0).toUpperCase();
+
+                document.getElementById('welcome-message').innerText = `¡Hola, ${nombreUsuario}!`;
+                document.getElementById('nav-name').innerText = nombreUsuario;
+                document.getElementById('nav-avatar').innerText = inicial;
+            } else {
+                // REDIRECCIÓN MODIFICADA: Ahora te manda a index.html
+                window.location.href = "index.html";
+            }
+        });
+
+        // CERRAR SESIÓN
+        document.getElementById('btn-logout').addEventListener('click', async (e) => {
+            e.preventDefault();
+            try {
+                await signOut(auth); // Al cerrar sesión, el Guardián de Ruta de arriba detecta el cambio y te expulsa a index.html
+            } catch (error) {
+                console.error("Error al cerrar sesión:", error);
+            }
+        });
+
+        // LÓGICA DE INTERFAZ (MENÚ Y SIDEBAR)
+        window.toggleDropdown = function() {
+            const dropdown = document.getElementById('user-dropdown');
+            dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+        };
+
+        window.toggleSidebar = function() {
+            const sidebar = document.getElementById('sidebar');
+            // Detectamos si estamos en computadora o celular
+            if (window.innerWidth > 768) {
+                // En computadora lo escondemos empujándolo a la izquierda
+                sidebar.classList.toggle('colapsado');
+            } else {
+                // En celular lo mostramos superpuesto
+                sidebar.classList.toggle('active');
+            }
+        };
+
+        window.onclick = function(event) {
+            if (!event.target.closest('.user-menu')) {
+                const dropdown = document.getElementById('user-dropdown');
+                if (dropdown) dropdown.style.display = 'none';
+            }
+        }
+    </script>
+</body>
+</html>

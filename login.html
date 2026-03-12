@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acceso - Desemvolvatec</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="login.css">
+    <link rel="icon" href="img/favicon.png" type="image/png">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+<body>
+
+    <header style="padding: 20px 5%; justify-content: center; background: transparent; box-shadow: none;">
+        <a href="index.html" style="text-decoration: none;">
+            <div class="logo-container">
+                <span>Desemvolvatec</span>
+            </div>
+        </a>
+    </header>
+
+    <div class="login-container">
+        <div class="login-card">
+            
+            <div id="form-login">
+                <span class="login-logo">Bienvenido de nuevo</span>
+                <p>Ingresa a tu espacio seguro</p>
+
+                <form id="loginForm">
+                    <div class="input-group">
+                        <label for="login-email">Correo electrónico</label>
+                        <input type="email" id="login-email" required placeholder="tu@correo.com">
+                    </div>
+                    <div class="input-group">
+                        <label for="login-password">Contraseña</label>
+                        <input type="password" id="login-password" required placeholder="••••••••">
+                    </div>
+                    <button type="submit" class="btn-submit">Iniciar sesión</button>
+                </form>
+
+                <div class="toggle-form">
+                    ¿No tienes una cuenta? <a onclick="window.toggleForms()" style="cursor: pointer; color: var(--color-primario); font-weight: 600;">Regístrate aquí</a>
+                </div>
+            </div>
+
+            <div id="form-registro" style="display: none;">
+                <span class="login-logo">Crea tu cuenta</span>
+                <p>Comienza tu camino hacia el bienestar</p>
+
+                <form id="registerForm">
+                    <div class="input-group">
+                        <label for="reg-nombre">Nombre completo</label>
+                        <input type="text" id="reg-nombre" required placeholder="Ej. Carlos Munguía">
+                    </div>
+                    <div class="input-group">
+                        <label for="reg-email">Correo electrónico</label>
+                        <input type="email" id="reg-email" required placeholder="tu@correo.com">
+                    </div>
+                    <div class="input-group">
+                        <label for="reg-password">Contraseña</label>
+                        <input type="password" id="reg-password" required placeholder="Mínimo 6 caracteres">
+                    </div>
+                    <button type="submit" class="btn-submit">Crear cuenta</button>
+                </form>
+
+                <div class="toggle-form">
+                    ¿Ya tienes una cuenta? <a onclick="window.toggleForms()" style="cursor: pointer; color: var(--color-primario); font-weight: 600;">Inicia sesión</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script type="module">
+        // 1. Importamos las herramientas de Firebase directo desde sus servidores
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+
+        // 2. AQUÍ VA TU CONFIGURACIÓN (¡Reemplaza este bloque por tus llaves reales!)
+        const firebaseConfig = {
+            apiKey: "AIzaSyArxvBjK5d9PzmOEbuuRyVVu9MuhtKmd_Q",
+            authDomain: "desemvolvatec.firebaseapp.com",
+            projectId: "desemvolvatec",
+            storageBucket: "desemvolvatec.firebasestorage.app",
+            messagingSenderId: "559151091877",
+            appId: "1:559151091877:web:ce2c950ab284c8cc5a3d4c"
+        };
+
+        // 3. Inicializamos la App y la Autenticación
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+
+        // --- LÓGICA VISUAL (Cambiar entre Login y Registro) ---
+        // Lo exponemos al objeto window para que los enlaces "onclick" en el HTML lo puedan encontrar
+        window.toggleForms = function() {
+            const loginForm = document.getElementById('form-login');
+            const regForm = document.getElementById('form-registro');
+            if (loginForm.style.display === 'none') {
+                loginForm.style.display = 'block';
+                regForm.style.display = 'none';
+            } else {
+                loginForm.style.display = 'none';
+                regForm.style.display = 'block';
+            }
+        };
+
+        // --- LÓGICA DE BASE DE DATOS: REGISTRO ---
+        const registerForm = document.getElementById('registerForm');
+        registerForm.addEventListener('submit', async (e) => {
+            e.preventDefault(); // Evita que la página recargue
+            
+            const email = document.getElementById('reg-email').value;
+            const password = document.getElementById('reg-password').value;
+            const nombre = document.getElementById('reg-nombre').value;
+
+            try {
+                // Firebase crea la cuenta encriptada
+                await createUserWithEmailAndPassword(auth, email, password);
+                alert(`¡Cuenta creada con éxito, ${nombre}! Ya puedes iniciar sesión.`);
+                
+                // Limpiamos el formulario y regresamos a la vista de login
+                registerForm.reset();
+                window.toggleForms();
+                
+            } catch (error) {
+                alert("Error al registrar: " + error.message);
+            }
+        });
+
+        // --- LÓGICA DE BASE DE DATOS: INICIO DE SESIÓN ---
+        const loginFormElement = document.getElementById('loginForm');
+        loginFormElement.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+
+            try {
+                // Firebase valida las credenciales
+                await signInWithEmailAndPassword(auth, email, password);
+                
+                // ¡Acceso concedido! Lo mandamos directo a su panel de estudiante
+                window.location.href = "dashboard.html";
+                
+            } catch (error) {
+                alert("Error al iniciar sesión. Verifica que tu correo y contraseña sean correctos.");
+            }
+        });
+    </script>
+</body>
+</html>
+
+window.location.href = "prueba-orientacion.html";

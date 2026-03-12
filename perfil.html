@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Perfil - Desemvolvatec</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="dashboard.css">
+    <link rel="icon" href="img/favicon.png" type="image/png">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        /* Pequeños ajustes exclusivos para el formulario del perfil */
+        .profile-settings-card {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .form-group {
+            margin-bottom: 25px;
+            text-align: left;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--color-texto-principal);
+            font-size: 0.95rem;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-family: var(--fuente-texto);
+            box-sizing: border-box;
+            transition: border-color 0.3s;
+        }
+        .form-group input:focus {
+            border-color: var(--color-primario);
+            outline: none;
+        }
+        .form-group input:disabled {
+            background-color: #f5f5f5;
+            color: #888;
+            cursor: not-allowed;
+        }
+        .btn-save {
+            background: var(--color-primario);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            transition: background 0.3s;
+        }
+        .btn-save:hover {
+            background: #8b6b4a;
+        }
+    </style>
+</head>
+<body class="dashboard-body">
+
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-logo">
+            <span>Desemvolvatec</span>
+        </div>
+        <nav class="sidebar-nav">
+            <a href="dashboard.html" class="nav-item"><span class="material-icons">dashboard</span> Inicio</a>
+            <a href="#" class="nav-item"><span class="material-icons">view_module</span> Servicios</a>
+            <a href="#" class="nav-item"><span class="material-icons">help_outline</span> Soporte</a>
+            <a href="#" class="nav-item activo"><span class="material-icons">settings</span> Configuración</a>
+        </nav>
+    </aside>
+
+    <main class="main-content">
+        
+        <header class="top-header">
+            <div class="header-izq">
+                <span class="material-icons menu-mobile" onclick="toggleSidebar()">menu</span>
+                <a href="dashboard.html" style="text-decoration: none; color: var(--color-texto-gris); display: flex; align-items: center; gap: 8px; font-weight: 500;">
+                    <span class="material-icons">arrow_back</span> Volver al Panel
+                </a>
+            </div>
+            
+            <div class="header-der">
+                <div class="user-avatar" id="nav-avatar">U</div>
+            </div>
+        </header>
+
+        <div class="dashboard-grid" style="display: block;">
+            
+            <div class="card profile-settings-card">
+                <h2 style="color: var(--color-primario); margin-top: 0; margin-bottom: 30px; text-align: center;">Configuración de Perfil</h2>
+                
+                <div style="text-align: center; margin-bottom: 30px;">
+                    <div class="profile-avatar-large" id="form-avatar" style="width: 100px; height: 100px; background: var(--color-primario); color: white; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 3rem; font-weight: bold; margin: 0 auto;">U</div>
+                    <p style="color: var(--color-texto-gris); font-size: 0.85rem; margin-top: 15px;">Tu avatar se genera automáticamente con tu inicial.</p>
+                </div>
+
+                <form id="form-perfil">
+                    <div class="form-group">
+                        <label for="input-nombre">Nombre visible</label>
+                        <input type="text" id="input-nombre" placeholder="Ej. Carlos Munguía" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="input-email">Correo electrónico</label>
+                        <input type="email" id="input-email" disabled title="Por seguridad, el correo no se puede cambiar aquí.">
+                        <span style="font-size: 0.8rem; color: #888; display: block; margin-top: 5px;">*El correo está vinculado a tu cuenta y no se puede modificar.</span>
+                    </div>
+
+                    <button type="submit" class="btn-save" id="btn-submit">Guardar Cambios</button>
+                </form>
+            </div>
+
+        </div>
+    </main>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+        import { getAuth, onAuthStateChanged, updateProfile } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+
+        // TUS LLAVES REALES DE FIREBASE
+        const firebaseConfig = {
+            apiKey: "AIzaSyArxvBjK5d9PzmOEbuuRyVVu9MuhtKmd_Q",
+            authDomain: "desemvolvatec.firebaseapp.com",
+            projectId: "desemvolvatec",
+            storageBucket: "desemvolvatec.firebasestorage.app",
+            messagingSenderId: "559151091877",
+            appId: "1:559151091877:web:ce2c950ab284c8cc5a3d4c"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+
+        // 1. CARGAR DATOS DEL USUARIO
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                // Obtener el nombre actual o la parte antes del @ del correo
+                const nombreUsuario = user.displayName || user.email.split('@')[0];
+                const inicial = nombreUsuario.charAt(0).toUpperCase();
+
+                // Llenar la interfaz con sus datos
+                document.getElementById('nav-avatar').innerText = inicial;
+                document.getElementById('form-avatar').innerText = inicial;
+                document.getElementById('input-nombre').value = nombreUsuario;
+                document.getElementById('input-email').value = user.email; // Se muestra bloqueado
+            } else {
+                // Si no hay sesión, regresarlo al login
+                window.location.href = "login.html";
+            }
+        });
+
+        // 2. GUARDAR LOS CAMBIOS
+        const formPerfil = document.getElementById('form-perfil');
+        const btnSubmit = document.getElementById('btn-submit');
+
+        formPerfil.addEventListener('submit', async (e) => {
+            e.preventDefault(); // Evita que la página recargue
+            const nuevoNombre = document.getElementById('input-nombre').value;
+
+            // Cambiar el texto del botón mientras carga
+            btnSubmit.innerText = "Guardando...";
+            btnSubmit.style.opacity = "0.7";
+
+            try {
+                // Enviar la actualización a Firebase
+                await updateProfile(auth.currentUser, {
+                    displayName: nuevoNombre
+                });
+
+                // Actualizar la inicial en la interfaz de inmediato
+                const inicial = nuevoNombre.charAt(0).toUpperCase();
+                document.getElementById('nav-avatar').innerText = inicial;
+                document.getElementById('form-avatar').innerText = inicial;
+
+                alert("¡Perfil actualizado correctamente!");
+                
+                // Opcional: regresar al dashboard
+                window.location.href = "dashboard.html";
+
+            } catch (error) {
+                console.error("Error al actualizar:", error);
+                alert("Hubo un error al intentar guardar los cambios.");
+            } finally {
+                // Restaurar el botón
+                btnSubmit.innerText = "Guardar Cambios";
+                btnSubmit.style.opacity = "1";
+            }
+        });
+
+        // Lógica del menú móvil
+        window.toggleSidebar = function() {
+            const sidebar = document.getElementById('sidebar');
+            sidebar.classList.toggle('active');
+        };
+    </script>
+</body>
+</html>
