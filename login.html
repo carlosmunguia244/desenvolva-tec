@@ -72,11 +72,11 @@
     </div>
 
     <script type="module">
-        // 1. Importamos las herramientas de Firebase directo desde sus servidores
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
-        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+        // Importamos sendEmailVerification y updateProfile
+        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendEmailVerification, updateProfile } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
 
-        // 2. AQUÍ VA TU CONFIGURACIÓN (¡Reemplaza este bloque por tus llaves reales!)
+        // TUS LLAVES REALES DE FIREBASE
         const firebaseConfig = {
             apiKey: "AIzaSyArxvBjK5d9PzmOEbuuRyVVu9MuhtKmd_Q",
             authDomain: "desemvolvatec.firebaseapp.com",
@@ -86,12 +86,10 @@
             appId: "1:559151091877:web:ce2c950ab284c8cc5a3d4c"
         };
 
-        // 3. Inicializamos la App y la Autenticación
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
 
         // --- LÓGICA VISUAL (Cambiar entre Login y Registro) ---
-        // Lo exponemos al objeto window para que los enlaces "onclick" en el HTML lo puedan encontrar
         window.toggleForms = function() {
             const loginForm = document.getElementById('form-login');
             const regForm = document.getElementById('form-registro');
@@ -104,7 +102,7 @@
             }
         };
 
-        // --- LÓGICA DE BASE DE DATOS: REGISTRO ---
+        // --- LÓGICA DE BASE DE DATOS: REGISTRO CON VERIFICACIÓN ---
         const registerForm = document.getElementById('registerForm');
         registerForm.addEventListener('submit', async (e) => {
             e.preventDefault(); // Evita que la página recargue
@@ -114,20 +112,38 @@
             const nombre = document.getElementById('reg-nombre').value;
 
             try {
-                // Firebase crea la cuenta encriptada
-                await createUserWithEmailAndPassword(auth, email, password);
-                alert(`¡Cuenta creada con éxito, ${nombre}! Ya puedes iniciar sesión.`);
+                // 1. Firebase crea la cuenta encriptada
+                const userCredential = await createUserWithEmailAndPassword(auth, email, password);
                 
-                // Limpiamos el formulario y regresamos a la vista de login
+                // 2. Guardamos el nombre del usuario
+                await updateProfile(userCredential.user, {
+                    displayName: nombre
+                });
+
+                // 3. Enviamos el correo de verificación real
+                await sendEmailVerification(userCredential.user);
+
+                // 4. Le avisamos al usuario y limpiamos el formulario
+                alert(`¡Cuenta creada con éxito, ${nombre}!\n\nHemos enviado un enlace de verificación a ${email}.\n\nPor favor, revisa tu bandeja de entrada (o la carpeta de SPAM) y haz clic en el enlace antes de iniciar sesión.`);
+                
+                // Forzamos el cierre de sesión para que no pueda entrar sin verificar
+                await auth.signOut();
+
                 registerForm.reset();
-                window.toggleForms();
+                window.toggleForms(); // Lo regresamos a la vista de Iniciar Sesión
                 
             } catch (error) {
-                alert("Error al registrar: " + error.message);
+                if (error.code === 'auth/email-already-in-use') {
+                    alert("Ese correo electrónico ya está registrado.");
+                } else if (error.code === 'auth/weak-password') {
+                    alert("La contraseña debe tener al menos 6 caracteres.");
+                } else {
+                    alert("Error al registrar: " + error.message);
+                }
             }
         });
 
-        // --- LÓGICA DE BASE DE DATOS: INICIO DE SESIÓN ---
+        // --- LÓGICA DE BASE DE DATOS: INICIO DE SESIÓN PROTEGIDO ---
         const loginFormElement = document.getElementById('loginForm');
         loginFormElement.addEventListener('submit', async (e) => {
             e.preventDefault();
@@ -137,10 +153,17 @@
 
             try {
                 // Firebase valida las credenciales
-                await signInWithEmailAndPassword(auth, email, password);
+                const userCredential = await signInWithEmailAndPassword(auth, email, password);
                 
-                // ¡Acceso concedido! Lo mandamos directo a su panel de estudiante
-                window.location.href = "dashboard.html";
+                // VERIFICACIÓN DEL CORREO
+                if (userCredential.user.emailVerified) {
+                    // Si ya hizo clic en el enlace de su correo, lo dejamos pasar
+                    window.location.href = "dashboard.html";
+                } else {
+                    // Si no ha verificado, lo expulsamos inmediatamente
+                    await auth.signOut();
+                    alert("Aún no has verificado tu correo electrónico.\n\nPor favor, revisa tu bandeja de entrada y haz clic en el enlace que te enviamos para poder acceder a tu panel.");
+                }
                 
             } catch (error) {
                 alert("Error al iniciar sesión. Verifica que tu correo y contraseña sean correctos.");

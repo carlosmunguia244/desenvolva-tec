@@ -74,18 +74,27 @@
 /* --- HEADER SUPERIOR --- */
 .top-header {
     background: #ffffff;
-    height: 70px;
+    min-height: 70px; /* Cambiado a min-height */
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0 30px;
+    padding: 15px 30px; /* Padding ajustado */
     border-bottom: 1px solid #e0e0e0;
+    box-sizing: border-box; /* Asegura que el padding no rompa el ancho */
 }
 
 .header-izq {
     display: flex;
     align-items: center;
     gap: 15px;
+    flex: 1; /* Permite que tome el espacio necesario */
+}
+
+.header-der {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    justify-content: flex-end; /* Alinea los íconos a la derecha */
 }
 
 /* ESTILOS DEL BOTÓN DE MENÚ Y TÍTULO */
@@ -110,12 +119,6 @@
     color: var(--color-texto-principal);
     font-family: var(--fuente-titulos), serif;
     font-weight: bold;
-}
-
-.header-der {
-    display: flex;
-    align-items: center;
-    gap: 20px;
 }
 
 .icon-notif {
@@ -309,15 +312,34 @@
     background: #8b6b4a;
 }
 
+/* --- OVERLAY PARA CELULARES (Fondo oscuro al abrir sidebar) --- */
+.sidebar-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: 9998; /* Justo debajo del sidebar (9999) */
+    backdrop-filter: blur(2px); /* Efecto difuminado moderno */
+}
+
+.sidebar-overlay.active {
+    display: block;
+}
+
 /* RESPONSIVO */
 @media (max-width: 768px) {
     .sidebar {
         position: fixed;
         left: -260px;
-        height: 100vh;
-        z-index: 1000;
-        box-shadow: 2px 0 10px rgba(0,0,0,0.1);
-        margin-left: 0; /* Reset del margen en celulares */
+        top: 0; /* Asegura que inicie desde arriba */
+        height: 100%; /* Ahora sí ocupará toda la pantalla hacia abajo */
+        min-height: 100vh;
+        z-index: 9999; /* Lo ponemos por encima de todo */
+        box-shadow: 2px 0 15px rgba(0,0,0,0.15); /* Sombra más fuerte */
+        margin-left: 0; 
     }
 
     .sidebar.active {
@@ -325,11 +347,22 @@
     }
 
     .user-name {
-        display: none;
+        display: none; /* Oculta el nombre al lado del avatar para ahorrar espacio */
     }
 
     .dashboard-grid {
         padding: 20px;
         grid-template-columns: 1fr;
+    }
+    
+    /* Arreglo para que el menú de cerrar sesión no se salga de la pantalla */
+    .dropdown-menu {
+        right: -10px; /* Ajuste para pantallas pequeñas */
+        top: 45px;
+    }
+    
+    /* Pequeño ajuste para los títulos largos en el header en celular */
+    .titulo-panel {
+        font-size: 1.2rem;
     }
 }
