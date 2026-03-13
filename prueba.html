@@ -57,16 +57,10 @@
         .info-text h4 { margin: 0 0 5px 0; color: var(--color-texto-principal); }
         .info-text p { margin: 0; color: var(--color-texto-gris); font-size: 0.9rem; line-height: 1.4; }
 
-        .faq-item { background: white; border: 1px solid #eaeaea; border-radius: 8px; margin-bottom: 15px; overflow: hidden; }
-        .faq-question { padding: 18px 20px; font-weight: 600; color: var(--color-texto-principal); cursor: pointer; display: flex; justify-content: space-between; align-items: center; background: #fdfbf9; }
-        .faq-answer { padding: 0 20px; max-height: 0; overflow: hidden; transition: max-height 0.3s ease, padding 0.3s ease; color: var(--color-texto-gris); font-size: 0.95rem; line-height: 1.5; }
-        .faq-item.active .faq-answer { max-height: 200px; padding: 15px 20px; border-top: 1px solid #eaeaea; }
-        .faq-item.active .material-icons { transform: rotate(180deg); }
-
         .form-group { margin-bottom: 20px; }
         .form-group label { display: block; margin-bottom: 8px; font-weight: 600; color: var(--color-texto-principal); font-size: 0.95rem; }
-        .form-group input, .form-group textarea, .form-group select { width: 100%; padding: 12px 15px; border: 1px solid #ddd; border-radius: 8px; font-family: var(--fuente-texto); font-size: 1rem; box-sizing: border-box; transition: border-color 0.3s; }
-        .form-group input:focus, .form-group textarea:focus, .form-group select:focus { border-color: var(--color-primario); outline: none; }
+        .form-group input, .form-group textarea { width: 100%; padding: 12px 15px; border: 1px solid #ddd; border-radius: 8px; font-family: var(--fuente-texto); font-size: 1rem; box-sizing: border-box; transition: border-color 0.3s; }
+        .form-group input:focus, .form-group textarea:focus { border-color: var(--color-primario); outline: none; }
         .form-group textarea { resize: vertical; min-height: 120px; }
         
         .btn-submit { background: var(--color-primario); color: white; border: none; padding: 15px; border-radius: 8px; font-weight: bold; font-size: 1rem; cursor: pointer; width: 100%; transition: background 0.3s; display: flex; justify-content: center; align-items: center; gap: 8px; }
@@ -101,60 +95,54 @@
             
             <div class="contact-info-card">
                 <h2 style="color: var(--color-primario); margin-top: 0; font-family: var(--fuente-titulos); font-size: 1.6rem;">¿En qué podemos ayudarte?</h2>
-                <p style="color: var(--color-texto-gris); margin-bottom: 30px; font-size: 0.95rem;">Nuestro equipo de soporte técnico y orientación está listo para resolver cualquier duda.</p>
+                <p style="color: var(--color-texto-gris); margin-bottom: 30px; font-size: 0.95rem;">Nuestro equipo de soporte técnico y orientación está listo para resolver cualquier duda sobre la plataforma.</p>
 
                 <div class="info-item">
                     <div class="info-icon"><span class="material-icons">email</span></div>
                     <div class="info-text">
                         <h4>Correo Electrónico</h4>
-                        <p>desenvolvatec04@gmail.com<br>Te responderemos lo antes posible.</p>
+                        <p>soporte@desemvolvatec.com<br>Te responderemos en menos de 24 hrs.</p>
                     </div>
                 </div>
 
-                
-
-                <div style="margin-top: 40px; border-top: 1px solid #eaeaea; padding-top: 20px;">
-                    <h3 style="color: var(--color-primario); font-size: 1.1rem; margin-bottom: 15px;">Preguntas Rápidas</h3>
-                    
-                    <div class="faq-item" onclick="this.classList.toggle('active')">
-                        <div class="faq-question">¿Cómo modifico mi nivel de estrés? <span class="material-icons" style="transition: 0.3s;">expand_more</span></div>
-                        <div class="faq-answer">Dirígete a "Mi Rutina" y marca las tareas completadas. El sistema actualizará tu panel principal.</div>
+                <div class="info-item">
+                    <div class="info-icon"><span class="material-icons">schedule</span></div>
+                    <div class="info-text">
+                        <h4>Horario de Atención</h4>
+                        <p>Lunes a Viernes<br>09:00 AM - 18:00 PM</p>
                     </div>
-                    <div class="faq-item" onclick="this.classList.toggle('active')">
-                        <div class="faq-question">¿Las asesorías son privadas? <span class="material-icons" style="transition: 0.3s;">expand_more</span></div>
-                        <div class="faq-answer">Sí, tu chat con la orientadora es confidencial. Nadie en la comunidad tiene acceso a él.</div>
+                </div>
+
+                <div class="info-item">
+                    <div class="info-icon"><span class="material-icons">security</span></div>
+                    <div class="info-text">
+                        <h4>Privacidad</h4>
+                        <p>Tus datos y mensajes están encriptados y son confidenciales.</p>
                     </div>
                 </div>
             </div>
 
             <div class="contact-form-card">
-                <form action="https://formsubmit.co/desenvolvatec04@gmail.com" method="POST">
-                    
-                    <input type="hidden" name="_subject" value="¡Nuevo ticket de Soporte Interno - Desemvolvatec!">
-                    <input type="hidden" name="_captcha" value="false">
-                    <input type="hidden" name="_next" value="https://carlosmunguia244.github.io/desenvolva-tec/soporte.html">
-                    
-                    <input type="hidden" id="input-email-hidden" name="email">
-
+                <form id="form-soporte">
                     <div class="form-group">
                         <label>Nombre Completo</label>
-                        <input type="text" id="input-nombre" name="Nombre del Estudiante" readonly style="background-color: #f5f5f5; color: #666; border: 1px solid #eaeaea; cursor: not-allowed;">
+                        <input type="text" id="input-nombre" disabled style="background-color: #f5f5f5; color: #666; border: 1px solid #eaeaea;">
                     </div>
 
                     <div class="form-group">
                         <label>Asunto</label>
-                        <select name="Asunto" required>
+                        <select required>
                             <option value="">Selecciona un tema...</option>
-                            <option value="Problema técnico">Problema técnico en la plataforma</option>
-                            <option value="Dudas sobre cuenta">Dudas sobre mi cuenta / perfil</option>
-                            <option value="Dudas sobre asesorías">Dudas sobre las asesorías</option>
-                            <option value="Otro">Otro</option>
+                            <option value="tecnico">Problema técnico en la plataforma</option>
+                            <option value="cuenta">Dudas sobre mi cuenta / perfil</option>
+                            <option value="asesoria">Dudas sobre las asesorías</option>
+                            <option value="otro">Otro</option>
                         </select>
                     </div>
 
                     <div class="form-group">
                         <label>Mensaje</label>
-                        <textarea name="Mensaje" placeholder="Describe detalladamente en qué podemos ayudarte..." required></textarea>
+                        <textarea placeholder="Describe detalladamente en qué podemos ayudarte..." required></textarea>
                     </div>
 
                     <button type="submit" class="btn-submit">
@@ -186,18 +174,19 @@
             if (user) {
                 const nombreUsuario = user.displayName || user.email.split('@')[0];
                 document.getElementById('nav-avatar').innerText = nombreUsuario.charAt(0).toUpperCase();
-                
-                // Muestra el nombre visible bloqueado en el input de texto
                 document.getElementById('input-nombre').value = nombreUsuario + ` (${user.email})`;
-                
-                // Llena el campo de correo oculto para que Formsubmit pueda enviarte el "Reply-To"
-                document.getElementById('input-email-hidden').value = user.email;
             } else {
                 window.location.href = "login.html";
             }
         });
 
-        // Lógica del menú móvil
+        // Simular el envío del formulario
+        document.getElementById('form-soporte').addEventListener('submit', (e) => {
+            e.preventDefault();
+            alert("¡Mensaje enviado con éxito!\n\nEl equipo de Desemvolvatec ha recibido tu solicitud y se pondrá en contacto contigo a través de tu correo electrónico.");
+            e.target.reset();
+        });
+
         window.toggleSidebar = function() {
             const sidebar = document.getElementById('sidebar');
             let overlay = document.getElementById('sidebar-overlay');
