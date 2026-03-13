@@ -21,6 +21,17 @@
         .notif-item p { margin: 0 0 5px 0; line-height: 1.4; }
         .notif-item small { color: #888; font-size: 0.75rem; }
         .notif-icon { color: var(--color-primario); }
+
+        /* --- ARREGLO RESPONSIVO PARA MÓVILES --- */
+        @media (max-width: 768px) {
+            .notif-dropdown {
+                position: fixed; /* Lo desvincula de la campanita */
+                top: 75px; /* Lo pone justo debajo del header blanco */
+                left: 5%; /* Lo centra dejando 5% de margen izquierdo */
+                width: 90%; /* Toma el 90% del ancho de la pantalla */
+                right: auto; /* Anula el right original */
+            }
+        }
     </style>
 </head>
 <body class="dashboard-body">
@@ -46,7 +57,6 @@
                 <div class="notif-wrapper" onclick="toggleNotifs(event)">
                     <span class="material-icons icon-notif">notifications</span>
                     <span class="notif-badge">2</span>
-                    
                     <div class="notif-dropdown" id="notif-dropdown" onclick="event.stopPropagation()">
                         <div class="notif-header">
                             <span>Notificaciones</span>
@@ -67,13 +77,6 @@
                                     <small>Ayer</small>
                                 </div>
                             </div>
-                            <div class="notif-item">
-                                <span class="material-icons notif-icon" style="color: #888;">waving_hand</span>
-                                <div style="color: #666;">
-                                    <p>¡Bienvenido a Desemvolvatec! Configura tu perfil para empezar.</p>
-                                    <small>Hace 2 días</small>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -82,7 +85,6 @@
                     <div class="user-avatar" id="nav-avatar">U</div>
                     <span class="user-name" id="nav-name">Cargando...</span>
                     <span class="material-icons">expand_more</span>
-                    
                     <div class="dropdown-menu" id="user-dropdown" onclick="event.stopPropagation()">
                         <a href="perfil.html"><span class="material-icons">person</span> Ver / Editar Perfil</a>
                         <div class="dropdown-divider"></div>
@@ -175,7 +177,7 @@
                 else dashStressBar.style.background = "#2ecc71"; 
 
             } else {
-                window.location.href = "index.html";
+                window.location.href = "login.html";
             }
         });
 
@@ -184,25 +186,21 @@
             try { await signOut(auth); } catch (error) { console.error(error); }
         });
 
-        // LÓGICA DE MENÚS Y NOTIFICACIONES
         window.toggleDropdown = function(e) {
             e.stopPropagation();
-            document.getElementById('notif-dropdown').style.display = 'none'; // Cierra notifs si estaban abiertas
+            document.getElementById('notif-dropdown').style.display = 'none';
             const dropdown = document.getElementById('user-dropdown');
             dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
         };
 
         window.toggleNotifs = function(e) {
             e.stopPropagation();
-            document.getElementById('user-dropdown').style.display = 'none'; // Cierra menú de usuario
+            document.getElementById('user-dropdown').style.display = 'none';
             const notifMenu = document.getElementById('notif-dropdown');
             notifMenu.style.display = notifMenu.style.display === 'block' ? 'none' : 'block';
-            
-            // Oculta la bolita roja con el número 2
             document.querySelector('.notif-badge').style.display = 'none';
         };
 
-        // Cerrar menús si tocan cualquier otra parte de la pantalla
         window.onclick = function(event) {
             document.getElementById('user-dropdown').style.display = 'none';
             document.getElementById('notif-dropdown').style.display = 'none';
