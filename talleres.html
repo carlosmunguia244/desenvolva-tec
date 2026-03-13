@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Talleres y Comunidad - Desemvolvatec</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="dashboard.css">
+    <link rel="icon" href="img/favicon.png" type="image/png">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        /* --- ESTILOS EXCLUSIVOS DE TALLERES (TABS Y TARJETAS) --- */
+        .talleres-wrapper {
+            padding: 20px 30px;
+            max-width: 1000px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        /* Navegación de Pestañas (Tabs) */
+        .tabs-header {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 25px;
+            border-bottom: 2px solid #eaeaea;
+            overflow-x: auto; /* Permite scroll en celulares si no caben */
+            padding-bottom: 5px;
+        }
+
+        .tab-btn {
+            background: none;
+            border: none;
+            padding: 10px 20px;
+            font-size: 1rem;
+            font-weight: bold;
+            color: var(--color-texto-gris);
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .tab-btn:hover {
+            color: var(--color-primario);
+        }
+
+        .tab-btn.active {
+            color: var(--color-primario);
+            border-bottom: 3px solid var(--color-primario);
+        }
+
+        /* Contenido de las pestañas */
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Grid para las tarjetas de las sesiones */
+        .sessions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        /* Tarjeta de Sesión */
+        .session-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            border: 1px solid #eaeaea;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.02);
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.2s;
+        }
+
+        .session-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0,0,0,0.05);
+        }
+
+        .session-tag {
+            align-self: flex-start;
+            font-size: 0.75rem;
+            font-weight: bold;
+            padding: 4px 10px;
+            border-radius: 20px;
+            margin-bottom: 15px;
+        }
+
+        .tag-oficial { background: #e8f4f8; color: #3498db; }
+        .tag-estudio { background: #fdf2e9; color: #e67e22; }
+        .tag-bienestar { background: #eafaf1; color: #2ecc71; }
+
+        .session-card h3 {
+            margin: 0 0 10px 0;
+            font-size: 1.1rem;
+            color: var(--color-texto-principal);
+        }
+
+        .session-info {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.85rem;
+            color: var(--color-texto-gris);
+            margin-bottom: 8px;
+        }
+
+        .btn-join {
+            margin-top: auto; /* Empuja el botón hacia abajo */
+            padding-top: 15px;
+        }
+
+        /* Formulario para Crear Sesión */
+        .create-session-card {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            border: 1px solid #eaeaea;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--color-texto-principal);
+            font-size: 0.95rem;
+        }
+
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-family: var(--fuente-texto);
+            box-sizing: border-box;
+        }
+
+        .form-group input:focus, .form-group select:focus {
+            border-color: var(--color-primario);
+            outline: none;
+        }
+    </style>
+</head>
+<body class="dashboard-body">
+
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-logo"><span>Desemvolvatec</span></div>
+        <nav class="sidebar-nav">
+            <a href="dashboard.html" class="nav-item"><span class="material-icons">dashboard</span> Inicio</a>
+            <a href="asesoria.html" class="nav-item"><span class="material-icons">support_agent</span> Asesoría Individual</a>
+            <a href="#" class="nav-item activo"><span class="material-icons">groups</span> Talleres Grupales</a>
+            <a href="rutina.html" class="nav-item"><span class="material-icons">calendar_month</span> Mi Rutina</a>
+        </nav>
+    </aside>
+
+    <main class="main-content">
+        <header class="top-header">
+            <div class="header-izq">
+                <span class="material-icons menu-toggle" onclick="toggleSidebar()">menu</span>
+                <a href="dashboard.html" style="text-decoration: none; color: var(--color-texto-gris); display: flex; align-items: center; gap: 8px; font-weight: 500;">
+                    <span class="material-icons">arrow_back</span> <span class="user-name">Volver al Panel</span>
+                </a>
+            </div>
+            <div class="header-der">
+                <div class="user-avatar" id="nav-avatar">U</div>
+            </div>
+        </header>
+
+        <div class="talleres-wrapper">
+            <h2 style="color: var(--color-primario); font-family: var(--fuente-titulos); font-size: 1.8rem; margin-top: 0;">Comunidad y Talleres</h2>
+            <p style="color: var(--color-texto-gris); margin-bottom: 30px;">Conecta con otros estudiantes, únete a grupos de estudio o asiste a pláticas con profesionales.</p>
+
+            <div class="tabs-header">
+                <button class="tab-btn active" onclick="abrirTab('oficiales', this)">🎓 Talleres Oficiales</button>
+                <button class="tab-btn" onclick="abrirTab('comunidad', this)">🤝 Grupos de Estudio</button>
+                <button class="tab-btn" onclick="abrirTab('crear', this)"><span class="material-icons" style="font-size: 1.2rem; vertical-align: bottom;">add_circle</span> Crear Sesión</button>
+            </div>
+
+            <div id="tab-oficiales" class="tab-content active">
+                <div class="sessions-grid">
+                    <div class="session-card">
+                        <span class="session-tag tag-oficial">Taller Psicológico</span>
+                        <h3>Manejo de Ansiedad en Época de Exámenes</h3>
+                        <div class="session-info"><span class="material-icons" style="font-size: 1.1rem;">event</span> Viernes, 18 de Marzo - 16:00 hrs</div>
+                        <div class="session-info"><span class="material-icons" style="font-size: 1.1rem;">person</span> Lic. Diana Urban (Orientadora)</div>
+                        <div class="btn-join"><button class="btn-primary-small" style="width: 100%;">Reservar Lugar</button></div>
+                    </div>
+
+                    <div class="session-card">
+                        <span class="session-tag tag-oficial">Taller Académico</span>
+                        <h3>Técnicas de Estudio Activo y Pomodoro</h3>
+                        <div class="session-info"><span class="material-icons" style="font-size: 1.1rem;">event</span> Lunes, 21 de Marzo - 18:00 hrs</div>
+                        <div class="session-info"><span class="material-icons" style="font-size: 1.1rem;">person</span> Mtro. Roberto Sánchez</div>
+                        <div class="btn-join"><button class="btn-primary-small" style="width: 100%;">Reservar Lugar</button></div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="tab-comunidad" class="tab-content">
+                <div class="sessions-grid" id="contenedor-comunidad">
+                    
+                    <div class="session-card">
+                        <span class="session-tag tag-estudio">Grupo de Estudio</span>
+                        <h3>Introducción a Big Data y Bases de Datos</h3>
+                        <div class="session-info"><span class="material-icons" style="font-size: 1.1rem;">event</span> Hoy - 19:00 hrs</div>
+                        <div class="session-info"><span class="material-icons" style="font-size: 1.1rem;">person</span> Organiza: Luis</div>
+                        <div class="btn-join"><button class="btn-primary-small" style="width: 100%; background: #e67e22;">Unirse por Zoom</button></div>
+                    </div>
+
+                    <div class="session-card">
+                        <span class="session-tag tag-bienestar">Pausa Activa / Deporte</span>
+                        <h3>Sesión de Estiramientos y Defensa Personal</h3>
+                        <div class="session-info"><span class="material-icons" style="font-size: 1.1rem;">event</span> Mañana - 08:00 hrs</div>
+                        <div class="session-info"><span class="material-icons" style="font-size: 1.1rem;">person</span> Organiza: Andrea</div>
+                        <div class="btn-join"><button class="btn-primary-small" style="width: 100%; background: #2ecc71;">Unirse por Meet</button></div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div id="tab-crear" class="tab-content">
+                <div class="create-session-card">
+                    <h3 style="margin-top: 0; color: var(--color-primario); text-align: center;">Organiza un encuentro</h3>
+                    <p style="text-align: center; color: var(--color-texto-gris); font-size: 0.9rem; margin-bottom: 25px;">Crea una sala de estudio, invita a debatir un tema o propón una pausa activa con tus compañeros.</p>
+                    
+                    <form id="form-nueva-sesion">
+                        <div class="form-group">
+                            <label>Categoría de la sesión</label>
+                            <select id="input-categoria" required>
+                                <option value="estudio">📚 Grupo de Estudio</option>
+                                <option value="bienestar">🧘‍♀️ Bienestar / Deporte / Pausa Activa</option>
+                                <option value="platica">☕ Plática / Debate Casual</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Título de la sesión</label>
+                            <input type="text" id="input-titulo" placeholder="Ej. Repaso para el examen de Arquitectura" required>
+                        </div>
+                        <div style="display: flex; gap: 15px;">
+                            <div class="form-group" style="flex: 1;">
+                                <label>Fecha</label>
+                                <input type="date" id="input-fecha" required>
+                            </div>
+                            <div class="form-group" style="flex: 1;">
+                                <label>Hora</label>
+                                <input type="time" id="input-hora" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Enlace de la videollamada (Zoom, Meet, Teams)</label>
+                            <input type="url" id="input-link" placeholder="https://zoom.us/j/123456789" required>
+                        </div>
+                        
+                        <button type="submit" class="btn-primary-small" style="width: 100%; padding: 15px; font-size: 1rem;">Publicar Sesión</button>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyArxvBjK5d9PzmOEbuuRyVVu9MuhtKmd_Q",
+            authDomain: "desemvolvatec.firebaseapp.com",
+            projectId: "desemvolvatec",
+            storageBucket: "desemvolvatec.firebasestorage.app",
+            messagingSenderId: "559151091877",
+            appId: "1:559151091877:web:ce2c950ab284c8cc5a3d4c"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        
+        let nombreEstudiante = "";
+
+        // 1. CARGAR USUARIO
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                nombreEstudiante = user.displayName || user.email.split('@')[0];
+                document.getElementById('nav-avatar').innerText = nombreEstudiante.charAt(0).toUpperCase();
+            } else {
+                window.location.href = "login.html";
+            }
+        });
+
+        // 2. LÓGICA DE LAS PESTAÑAS (TABS)
+        window.abrirTab = function(nombreTab, elementoBoton) {
+            // Ocultar todos los contenidos
+            const contenidos = document.querySelectorAll('.tab-content');
+            contenidos.forEach(c => c.classList.remove('active'));
+
+            // Quitar el color activo de todos los botones
+            const botones = document.querySelectorAll('.tab-btn');
+            botones.forEach(b => b.classList.remove('active'));
+
+            // Mostrar el contenido seleccionado y pintar el botón
+            document.getElementById(`tab-${nombreTab}`).classList.add('active');
+            elementoBoton.classList.add('active');
+        };
+
+        // 3. LÓGICA PARA PUBLICAR UNA NUEVA SESIÓN EN LA COMUNIDAD
+        const formNuevaSesion = document.getElementById('form-nueva-sesion');
+        
+        formNuevaSesion.addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            // Recoger los datos del formulario
+            const categoria = document.getElementById('input-categoria').value;
+            const titulo = document.getElementById('input-titulo').value;
+            const fecha = document.getElementById('input-fecha').value;
+            const hora = document.getElementById('input-hora').value;
+            const link = document.getElementById('input-link').value;
+
+            // Determinar colores según categoría
+            let claseTag = "";
+            let textoTag = "";
+            let colorBoton = "";
+
+            if (categoria === 'estudio') {
+                claseTag = "tag-estudio"; textoTag = "Grupo de Estudio"; colorBoton = "#e67e22";
+            } else if (categoria === 'bienestar') {
+                claseTag = "tag-bienestar"; textoTag = "Pausa Activa / Deporte"; colorBoton = "#2ecc71";
+            } else {
+                claseTag = "tag-oficial"; textoTag = "Plática / Debate"; colorBoton = "#3498db";
+            }
+
+            // Crear la nueva tarjeta en HTML
+            const nuevaTarjetaHTML = `
+                <div class="session-card" style="border: 2px solid var(--color-primario);">
+                    <span class="session-tag ${claseTag}">${textoTag}</span>
+                    <h3>${titulo}</h3>
+                    <div class="session-info"><span class="material-icons" style="font-size: 1.1rem;">event</span> ${fecha} - ${hora} hrs</div>
+                    <div class="session-info"><span class="material-icons" style="font-size: 1.1rem;">person</span> Organiza: ${nombreEstudiante} (Tú)</div>
+                    <div class="btn-join"><button class="btn-primary-small" style="width: 100%; background: ${colorBoton};" onclick="window.open('${link}', '_blank')">Abrir Sala</button></div>
+                </div>
+            `;
+
+            // Insertarla en la pestaña de la comunidad
+            const contenedorComunidad = document.getElementById('contenedor-comunidad');
+            // Insertar al principio de la lista
+            contenedorComunidad.insertAdjacentHTML('afterbegin', nuevaTarjetaHTML);
+
+            // Avisar al usuario y cambiarlo a la pestaña de comunidad
+            alert("¡Tu sesión ha sido publicada con éxito en la comunidad!");
+            formNuevaSesion.reset();
+            
+            // Simular clic en el botón "Comunidad" para que vea su tarjeta creada
+            const btnComunidad = document.querySelectorAll('.tab-btn')[1];
+            abrirTab('comunidad', btnComunidad);
+        });
+
+        // Lógica del Sidebar móvil
+        window.toggleSidebar = function() {
+            const sidebar = document.getElementById('sidebar');
+            let overlay = document.getElementById('sidebar-overlay');
+            if (!overlay) {
+                overlay = document.createElement('div');
+                overlay.id = 'sidebar-overlay';
+                overlay.className = 'sidebar-overlay';
+                document.body.appendChild(overlay);
+                overlay.onclick = window.toggleSidebar; 
+            }
+            if (window.innerWidth > 768) { sidebar.classList.toggle('colapsado'); } 
+            else { sidebar.classList.toggle('active'); overlay.classList.toggle('active'); }
+        };
+    </script>
+</body>
+</html>

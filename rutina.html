@@ -9,90 +9,182 @@
     <link rel="icon" href="img/favicon.png" type="image/png">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <style>
-        /* Estilos específicos para la lista de tareas de la rutina */
-        .rutina-card {
-            max-width: 600px;
-            margin: 0 auto;
-        }
-        
-        .rutina-header {
-            text-align: center;
-            margin-bottom: 30px;
+        /* --- ESTILOS EXCLUSIVOS DE LA RUTINA FUSIONADA --- */
+        .rutina-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 25px;
+            align-items: start;
         }
 
-        .checklist-container {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            margin-bottom: 30px;
+        @media (max-width: 900px) {
+            .rutina-grid { grid-template-columns: 1fr; }
         }
 
-        /* Diseño de los checkboxes para que se vean modernos y fáciles de tocar en celular */
-        .habit-item {
-            display: flex;
-            align-items: center;
-            padding: 15px 20px;
-            background: #fdfbf9;
+        /* Panel Superior: Medidor de Estrés */
+        .stress-dashboard {
+            background: linear-gradient(135deg, #ffffff 0%, #fdfbf9 100%);
             border: 1px solid #eaeaea;
             border-radius: 12px;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .habit-item:hover {
-            background: #f0e6da;
-            border-color: var(--color-primario);
-        }
-
-        .habit-item input[type="checkbox"] {
-            width: 22px;
-            height: 22px;
-            margin-right: 15px;
-            cursor: pointer;
-            accent-color: var(--color-primario);
-        }
-
-        .habit-item span {
-            font-size: 1.05rem;
-            color: var(--color-texto-principal);
-            flex: 1;
-        }
-
-        /* Barra de progreso local de la rutina */
-        .rutina-progress-wrapper {
-            background: #f4f6f8;
-            padding: 20px;
-            border-radius: 12px;
+            padding: 25px;
             margin-bottom: 25px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
             text-align: center;
         }
 
-        .rutina-progress-text {
-            font-weight: bold;
-            color: var(--color-primario);
-            margin-bottom: 10px;
-            font-size: 1.2rem;
+        .stress-title {
+            color: var(--color-texto-principal);
+            font-family: var(--fuente-titulos);
+            margin: 0 0 15px 0;
+            font-size: 1.4rem;
         }
 
-        .btn-save-rutina {
+        .stress-bar-container {
+            width: 100%;
+            height: 14px;
+            background: #eee;
+            border-radius: 20px;
+            overflow: hidden;
+            margin-bottom: 10px;
+        }
+
+        .stress-bar-fill {
+            height: 100%;
+            background: #2ecc71; /* Verde por defecto */
+            width: 0%;
+            transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.5s ease;
+        }
+
+        /* Gestor de Tareas (Izquierda) */
+        .task-manager {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            border: 1px solid #eaeaea;
+        }
+
+        .task-form {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }
+
+        .task-input {
+            flex: 1;
+            min-width: 200px;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-family: var(--fuente-texto);
+        }
+
+        .stress-select {
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background: white;
+            font-family: var(--fuente-texto);
+            cursor: pointer;
+        }
+
+        .btn-add-task {
             background: var(--color-primario);
             color: white;
             border: none;
-            padding: 15px;
+            padding: 12px 20px;
             border-radius: 8px;
-            font-size: 1rem;
-            font-weight: bold;
             cursor: pointer;
-            width: 100%;
-            transition: background 0.3s;
+            font-weight: bold;
             display: flex;
-            justify-content: center;
             align-items: center;
-            gap: 10px;
+            gap: 5px;
         }
 
-        .btn-save-rutina:hover {
-            background: #8b6b4a;
+        /* Lista de Tareas */
+        .task-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .task-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px;
+            background: #fdfbf9;
+            border: 1px solid #eaeaea;
+            border-radius: 8px;
+            transition: transform 0.2s ease;
+        }
+
+        .task-item:hover { transform: translateX(5px); }
+
+        .task-item.completada {
+            opacity: 0.6;
+            text-decoration: line-through;
+            background: #f4f6f8;
+        }
+
+        .task-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex: 1;
+        }
+
+        .task-checkbox {
+            width: 20px;
+            height: 20px;
+            accent-color: var(--color-primario);
+            cursor: pointer;
+        }
+
+        .tag-estres {
+            font-size: 0.75rem;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-weight: bold;
+            color: white;
+        }
+
+        .tag-alto { background: #e74c3c; }
+        .tag-medio { background: #f1c40f; color: #555; }
+        .tag-bajo { background: #2ecc71; }
+
+        .btn-delete {
+            background: none;
+            border: none;
+            color: #e74c3c;
+            cursor: pointer;
+            opacity: 0.5;
+            transition: opacity 0.2s;
+        }
+        .btn-delete:hover { opacity: 1; }
+
+        /* Hábitos (Derecha) */
+        .habits-container {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            border: 1px solid #eaeaea;
+        }
+
+        .habit-item {
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            border-bottom: 1px solid #f0f0f0;
+            cursor: pointer;
+        }
+        .habit-item:last-child { border-bottom: none; }
+        
+        .habit-item input {
+            width: 18px;
+            height: 18px;
+            margin-right: 12px;
+            accent-color: var(--color-primario);
         }
     </style>
 </head>
@@ -111,8 +203,8 @@
         <header class="top-header">
             <div class="header-izq">
                 <span class="material-icons menu-toggle" onclick="toggleSidebar()">menu</span>
-                <a href="dashboard.html" style="text-decoration: none; color: var(--color-texto-gris); display: flex; align-items: center; gap: 8px; font-weight: 500; white-space: nowrap;">
-                    <span class="material-icons">arrow_back</span> <span class="user-name">Volver al Panel</span>
+                <a href="dashboard.html" style="text-decoration: none; color: var(--color-texto-gris); display: flex; align-items: center; gap: 8px; font-weight: 500;">
+                    <span class="material-icons">arrow_back</span> <span class="user-name">Volver</span>
                 </a>
             </div>
             <div class="header-der">
@@ -120,43 +212,47 @@
             </div>
         </header>
 
-        <div class="dashboard-grid" style="display: block;">
-            <div class="card rutina-card">
+        <div style="padding: 30px;">
+            
+            <div class="stress-dashboard">
+                <h2 class="stress-title">Nivel de Gestión de Estrés</h2>
+                <div class="stress-bar-container">
+                    <div class="stress-bar-fill" id="barra-estres"></div>
+                </div>
+                <p id="texto-estres" style="margin: 0; font-weight: bold; color: #2ecc71;">0% - Organizando tu día</p>
+                <p style="font-size: 0.85rem; color: #888; margin-top: 5px;">Completar tareas de estrés "Alto" libera más carga mental.</p>
+            </div>
+
+            <div class="rutina-grid">
                 
-                <div class="rutina-header">
-                    <h2 style="color: var(--color-primario); margin-top: 0; font-family: var(--fuente-titulos); font-size: 1.8rem;">Hábitos contra el Estrés</h2>
-                    <p style="color: var(--color-texto-gris); font-size: 0.95rem;">Marca tus tareas diarias para aumentar tu nivel de resiliencia y gestión del estrés.</p>
+                <div class="task-manager">
+                    <h3 style="margin-top: 0; color: var(--color-primario);"><span class="material-icons" style="vertical-align: middle;">list_alt</span> Tareas del Día</h3>
+                    
+                    <form class="task-form" id="form-tarea">
+                        <input type="text" id="input-tarea" class="task-input" placeholder="Ej. Estudiar Matemáticas" required>
+                        <select id="select-estres" class="stress-select">
+                            <option value="bajo">Carga Baja</option>
+                            <option value="medio">Carga Media</option>
+                            <option value="alto">Carga Alta</option>
+                        </select>
+                        <button type="submit" class="btn-add-task"><span class="material-icons">add</span> Agregar</button>
+                    </form>
+
+                    <div class="task-list" id="contenedor-tareas">
+                        </div>
                 </div>
 
-                <div class="rutina-progress-wrapper">
-                    <div class="rutina-progress-text" id="texto-porcentaje">0% Completado</div>
-                    <div class="progress-bar" style="height: 12px; margin-bottom: 0;">
-                        <div class="progress-fill" id="barra-porcentaje" style="width: 0%; transition: width 0.4s ease;"></div>
+                <div class="habits-container">
+                    <h3 style="margin-top: 0; color: var(--color-primario);"><span class="material-icons" style="vertical-align: middle;">self_improvement</span> Hábitos Base</h3>
+                    <p style="font-size: 0.85rem; color: #888; margin-bottom: 15px;">Estos hábitos mantienen tu estrés a raya.</p>
+                    
+                    <div id="contenedor-habitos">
+                        <label class="habit-item"><input type="checkbox" class="check-habito"> 💧 Tomar 2L de agua</label>
+                        <label class="habit-item"><input type="checkbox" class="check-habito"> 🧘‍♀️ Pausa activa (10 min)</label>
+                        <label class="habit-item"><input type="checkbox" class="check-habito"> 💤 Dormir 7-8 horas</label>
+                        <label class="habit-item"><input type="checkbox" class="check-habito"> 📵 30 min sin pantallas</label>
                     </div>
                 </div>
-
-                <div class="checklist-container" id="lista-habitos">
-                    <label class="habit-item">
-                        <input type="checkbox" class="check-habito" value="25">
-                        <span>💧 Tomar 2 litros de agua en el día</span>
-                    </label>
-                    <label class="habit-item">
-                        <input type="checkbox" class="check-habito" value="25">
-                        <span>🧘‍♀️ Tomar un descanso activo de 10 min</span>
-                    </label>
-                    <label class="habit-item">
-                        <input type="checkbox" class="check-habito" value="25">
-                        <span>📚 Estudiar 1 hora sin distracciones (Pomodoro)</span>
-                    </label>
-                    <label class="habit-item">
-                        <input type="checkbox" class="check-habito" value="25">
-                        <span>💤 Dormir al menos 7 horas anoche</span>
-                    </label>
-                </div>
-
-                <button class="btn-save-rutina" id="btn-guardar">
-                    <span class="material-icons">save</span> Guardar Progreso
-                </button>
 
             </div>
         </div>
@@ -178,90 +274,156 @@
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         
-        let usuarioID = ""; // Aquí guardaremos el ID único del usuario para guardar sus datos
+        let usuarioID = "invitado";
 
-        // 1. CARGAR DATOS DEL USUARIO
+        // Tareas iniciales por defecto (Puedes borrarlas o dejarlas como ejemplo)
+        let tareas = [
+            { id: 1, nombre: "Proyecto de Big Data", estres: "alto", completada: false },
+            { id: 2, nombre: "Entrenamiento de Nippon Kempo", estres: "bajo", completada: false }
+        ];
+
+        // Referencias del DOM
+        const formTarea = document.getElementById('form-tarea');
+        const inputTarea = document.getElementById('input-tarea');
+        const selectEstres = document.getElementById('select-estres');
+        const contenedorTareas = document.getElementById('contenedor-tareas');
+        const checksHabitos = document.querySelectorAll('.check-habito');
+        const barraEstres = document.getElementById('barra-estres');
+        const textoEstres = document.getElementById('texto-estres');
+
+        // 1. CARGAR USUARIO
         onAuthStateChanged(auth, (user) => {
             if (user) {
                 const nombreUsuario = user.displayName || user.email.split('@')[0];
                 document.getElementById('nav-avatar').innerText = nombreUsuario.charAt(0).toUpperCase();
-                usuarioID = user.uid; // Tomamos su ID único de Firebase
-                
-                // Cargamos el progreso guardado anteriormente (si existe)
-                cargarProgreso();
+                usuarioID = user.uid;
+                cargarDatos();
             } else {
                 window.location.href = "login.html";
             }
         });
 
-        // 2. LÓGICA DE LA BARRA DE PROGRESO
-        const checkboxes = document.querySelectorAll('.check-habito');
-        const barraPorcentaje = document.getElementById('barra-porcentaje');
-        const textoPorcentaje = document.getElementById('texto-porcentaje');
-        const btnGuardar = document.getElementById('btn-guardar');
+        // 2. RENDERIZAR TAREAS
+        function renderizarTareas() {
+            contenedorTareas.innerHTML = "";
+            tareas.forEach(tarea => {
+                const div = document.createElement('div');
+                div.className = `task-item ${tarea.completada ? 'completada' : ''}`;
+                
+                // Asignar color según el estrés
+                let claseTag = tarea.estres === 'alto' ? 'tag-alto' : (tarea.estres === 'medio' ? 'tag-medio' : 'tag-bajo');
+                let textoTag = tarea.estres.toUpperCase();
 
-        // Función que calcula cuánto llevamos basado en qué cajas están marcadas
-        function calcularProgreso() {
-            let total = 0;
-            checkboxes.forEach(box => {
-                if (box.checked) {
-                    total += parseInt(box.value);
-                }
+                div.innerHTML = `
+                    <div class="task-info">
+                        <input type="checkbox" class="task-checkbox" onchange="toggleTarea(${tarea.id})" ${tarea.completada ? 'checked' : ''}>
+                        <span style="font-weight: 500;">${tarea.nombre}</span>
+                        <span class="tag-estres ${claseTag}">${textoTag}</span>
+                    </div>
+                    <button class="btn-delete" onclick="eliminarTarea(${tarea.id})"><span class="material-icons">delete</span></button>
+                `;
+                contenedorTareas.appendChild(div);
             });
-            
-            // Actualizamos la interfaz
-            barraPorcentaje.style.width = `${total}%`;
-            textoPorcentaje.innerText = `${total}% Completado`;
-            
-            // Si llega a 100, cambiamos el color a verde brillante
-            if (total === 100) {
-                barraPorcentaje.style.background = "#2ecc71";
-            } else {
-                barraPorcentaje.style.background = "var(--color-primario)";
-            }
-            
-            return total;
+            calcularProgresoEstres();
+            guardarDatos();
         }
 
-        // Cada vez que hagan clic en un checkbox, recalculamos
-        checkboxes.forEach(box => {
-            box.addEventListener('change', calcularProgreso);
+        // 3. AGREGAR NUEVA TAREA
+        formTarea.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const nuevaTarea = {
+                id: Date.now(),
+                nombre: inputTarea.value,
+                estres: selectEstres.value,
+                completada: false
+            };
+            tareas.push(nuevaTarea);
+            inputTarea.value = "";
+            renderizarTareas();
         });
 
-        // 3. GUARDAR EL PROGRESO
-        btnGuardar.addEventListener('click', () => {
-            const progresoActual = calcularProgreso();
-            
-            // Guardamos el porcentaje en el almacenamiento local de este dispositivo, amarrado al ID del usuario
-            localStorage.setItem(`progresoEstres_${usuarioID}`, progresoActual);
-            
-            // Cambiamos el texto del botón temporalmente
-            const textoOriginal = btnGuardar.innerHTML;
-            btnGuardar.innerHTML = `<span class="material-icons">check_circle</span> ¡Progreso Guardado!`;
-            btnGuardar.style.background = "#2ecc71";
-            
-            setTimeout(() => {
-                btnGuardar.innerHTML = textoOriginal;
-                btnGuardar.style.background = "var(--color-primario)";
-            }, 2000);
+        // 4. FUNCIONES DE TAREAS (Expuestas a window para que el HTML las pueda llamar)
+        window.toggleTarea = function(id) {
+            const tarea = tareas.find(t => t.id === id);
+            if(tarea) tarea.completada = !tarea.completada;
+            renderizarTareas();
+        };
+
+        window.eliminarTarea = function(id) {
+            tareas = tareas.filter(t => t.id !== id);
+            renderizarTareas();
+        };
+
+        // Escuchar cambios en los hábitos
+        checksHabitos.forEach(check => {
+            check.addEventListener('change', () => {
+                calcularProgresoEstres();
+                guardarDatos();
+            });
         });
 
-        // 4. CARGAR EL PROGRESO AL INICIAR
-        function cargarProgreso() {
-            // Buscamos si este usuario ya había guardado algo
-            const progresoGuardado = localStorage.getItem(`progresoEstres_${usuarioID}`);
+        // 5. EL CEREBRO: CÁLCULO DE ESTRÉS
+        function calcularProgresoEstres() {
+            // Puntos por hábitos (Cada uno vale 5 puntos base)
+            let puntosHabitos = 0;
+            let totalHabitos = checksHabitos.length * 5;
+            checksHabitos.forEach(check => { if(check.checked) puntosHabitos += 5; });
+
+            // Puntos por tareas (Alto = 15pts, Medio = 10pts, Bajo = 5pts)
+            let puntosTareas = 0;
+            let totalTareas = 0;
+
+            tareas.forEach(t => {
+                let peso = t.estres === 'alto' ? 15 : (t.estres === 'medio' ? 10 : 5);
+                totalTareas += peso;
+                if (t.completada) puntosTareas += peso;
+            });
+
+            // Evitar división por cero si no hay tareas
+            let totalPosible = totalHabitos + totalTareas;
+            let porcentaje = totalPosible === 0 ? 0 : Math.round(((puntosHabitos + puntosTareas) / totalPosible) * 100);
+
+            // Actualizar Interfaz
+            barraEstres.style.width = `${porcentaje}%`;
             
-            if (progresoGuardado) {
-                // Simulamos marcar las cajas necesarias para llegar a ese porcentaje
-                let valorNecesario = parseInt(progresoGuardado);
-                checkboxes.forEach(box => {
-                    if (valorNecesario > 0) {
-                        box.checked = true;
-                        valorNecesario -= parseInt(box.value);
-                    }
-                });
-                calcularProgreso(); // Actualizamos la barra visual
+            // Lógica de colores y mensajes
+            if (porcentaje < 30) {
+                barraEstres.style.background = "#e74c3c"; // Rojo
+                textoEstres.innerText = `${porcentaje}% - Sobrecarga. ¡Empieza por un hábito pequeño!`;
+                textoEstres.style.color = "#e74c3c";
+            } else if (porcentaje < 70) {
+                barraEstres.style.background = "#f1c40f"; // Amarillo
+                textoEstres.innerText = `${porcentaje}% - Estrés Moderado. Vas a buen ritmo.`;
+                textoEstres.style.color = "#d35400";
+            } else {
+                barraEstres.style.background = "#2ecc71"; // Verde
+                textoEstres.innerText = `${porcentaje}% - ¡Excelente Gestión del Estrés!`;
+                textoEstres.style.color = "#2ecc71";
             }
+
+            // Guardamos el porcentaje global para que el Dashboard lo pueda leer
+            localStorage.setItem(`estresGlobal_${usuarioID}`, porcentaje);
+        }
+
+        // 6. GUARDAR Y CARGAR EN LOCALSTORAGE
+        function guardarDatos() {
+            localStorage.setItem(`tareas_${usuarioID}`, JSON.stringify(tareas));
+            let estadoHabitos = Array.from(checksHabitos).map(c => c.checked);
+            localStorage.setItem(`habitos_${usuarioID}`, JSON.stringify(estadoHabitos));
+        }
+
+        function cargarDatos() {
+            const tareasGuardadas = localStorage.getItem(`tareas_${usuarioID}`);
+            const habitosGuardados = localStorage.getItem(`habitos_${usuarioID}`);
+
+            if (tareasGuardadas) tareas = JSON.parse(tareasGuardadas);
+            if (habitosGuardados) {
+                const estadoHabitos = JSON.parse(habitosGuardados);
+                checksHabitos.forEach((check, index) => {
+                    check.checked = estadoHabitos[index] || false;
+                });
+            }
+            renderizarTareas();
         }
 
         // Lógica del Sidebar móvil
