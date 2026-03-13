@@ -8,6 +8,30 @@
     <link rel="stylesheet" href="login.css">
     <link rel="icon" href="img/favicon.png" type="image/png">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        /* Estilo específico para la caja de la contraseña con el ojito */
+        .password-container {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+        .password-container input {
+            width: 100%;
+            padding-right: 45px;
+            box-sizing: border-box;
+        }
+        .toggle-password {
+            position: absolute;
+            right: 12px;
+            cursor: pointer;
+            color: #888;
+            user-select: none;
+            transition: color 0.3s;
+        }
+        .toggle-password:hover {
+            color: var(--color-primario);
+        }
+    </style>
 </head>
 <body>
 
@@ -41,7 +65,10 @@
                     </div>
                     <div class="input-group">
                         <label for="login-password">Contraseña</label>
-                        <input type="password" id="login-password" required placeholder="••••••••">
+                        <div class="password-container">
+                            <input type="password" id="login-password" required placeholder="••••••••">
+                            <span class="material-icons toggle-password" onclick="togglePassword('login-password', this)">visibility_off</span>
+                        </div>
                     </div>
                     <button type="submit" class="btn-submit">Iniciar sesión</button>
                 </form>
@@ -57,7 +84,7 @@
 
                 <form id="registerForm">
                     <div class="input-group">
-                        <label for="reg-nombre">Nombre completo</label>
+                        <label for="reg-nombre">Nombre visible</label>
                         <input type="text" id="reg-nombre" required placeholder="Ej. Carlos Munguía">
                     </div>
                     <div class="input-group">
@@ -66,7 +93,10 @@
                     </div>
                     <div class="input-group">
                         <label for="reg-password">Contraseña</label>
-                        <input type="password" id="reg-password" required placeholder="Mínimo 6 caracteres">
+                        <div class="password-container">
+                            <input type="password" id="reg-password" required placeholder="Mínimo 6 caracteres">
+                            <span class="material-icons toggle-password" onclick="togglePassword('reg-password', this)">visibility_off</span>
+                        </div>
                     </div>
                     <button type="submit" class="btn-submit">Crear cuenta</button>
                 </form>
@@ -81,10 +111,8 @@
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
-        // Importamos sendEmailVerification y updateProfile
-        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendEmailVerification, updateProfile } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile, signOut } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
 
-        // TUS LLAVES REALES DE FIREBASE
         const firebaseConfig = {
             apiKey: "AIzaSyArxvBjK5d9PzmOEbuuRyVVu9MuhtKmd_Q",
             authDomain: "desemvolvatec.firebaseapp.com",
@@ -97,7 +125,7 @@
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
 
-        // --- LÓGICA VISUAL (Cambiar entre Login y Registro) ---
+        // Cambiar entre Login y Registro
         window.toggleForms = function() {
             const loginForm = document.getElementById('form-login');
             const regForm = document.getElementById('form-registro');
@@ -110,39 +138,48 @@
             }
         };
 
-        // --- LÓGICA DE BASE DE DATOS: REGISTRO CON VERIFICACIÓN ---
+        // Mostrar u Ocultar Contraseña
+        window.togglePassword = function(inputId, iconElement) {
+            const input = document.getElementById(inputId);
+            if (input.type === "password") {
+                input.type = "text";
+                iconElement.innerText = "visibility";
+            } else {
+                input.type = "password";
+                iconElement.innerText = "visibility_off";
+            }
+        };
+
+        // --- LÓGICA DE REGISTRO ---
         const registerForm = document.getElementById('registerForm');
         registerForm.addEventListener('submit', async (e) => {
-            e.preventDefault(); // Evita que la página recargue
+            e.preventDefault(); 
             
             const email = document.getElementById('reg-email').value;
             const password = document.getElementById('reg-password').value;
             const nombre = document.getElementById('reg-nombre').value;
 
             try {
-                // 1. Firebase crea la cuenta encriptada
+                // 1. Crear cuenta
                 const userCredential = await createUserWithEmailAndPassword(auth, email, password);
                 
-                // 2. Guardamos el nombre del usuario
-                await updateProfile(userCredential.user, {
-                    displayName: nombre
-                });
+                // 2. Guardar nombre
+                await updateProfile(userCredential.user, { displayName: nombre });
 
-                // 3. Enviamos el correo de verificación real
-                await sendEmailVerification(userCredential.user);
-
-                // 4. Le avisamos al usuario y limpiamos el formulario
-                alert(`¡Cuenta creada con éxito, ${nombre}!\n\nHemos enviado un enlace de verificación a ${email}.\n\nPor favor, revisa tu bandeja de entrada (o la carpeta de SPAM) y haz clic en el enlace antes de iniciar sesión.`);
+                // 3. Avisar al usuario
+                alert("¡Cuenta creada con éxito! Por favor, inicia sesión con tus nuevas credenciales.");
                 
-                // Forzamos el cierre de sesión para que no pueda entrar sin verificar
-                await auth.signOut();
-
+                // 4. Forzar visualmente el cambio a la pantalla de Login y limpiar formulario
                 registerForm.reset();
-                window.toggleForms(); // Lo regresamos a la vista de Iniciar Sesión
+                document.getElementById('form-registro').style.display = 'none';
+                document.getElementById('form-login').style.display = 'block';
+
+                // 5. Cerrar la sesión automática en segundo plano
+                await signOut(auth);
                 
             } catch (error) {
                 if (error.code === 'auth/email-already-in-use') {
-                    alert("Ese correo electrónico ya está registrado.");
+                    alert("Ese correo electrónico ya está registrado. Intenta iniciar sesión.");
                 } else if (error.code === 'auth/weak-password') {
                     alert("La contraseña debe tener al menos 6 caracteres.");
                 } else {
@@ -151,7 +188,7 @@
             }
         });
 
-        // --- LÓGICA DE BASE DE DATOS: INICIO DE SESIÓN PROTEGIDO ---
+        // --- LÓGICA DE INICIO DE SESIÓN ---
         const loginFormElement = document.getElementById('loginForm');
         loginFormElement.addEventListener('submit', async (e) => {
             e.preventDefault();
@@ -160,21 +197,10 @@
             const password = document.getElementById('login-password').value;
 
             try {
-                // Firebase valida las credenciales
-                const userCredential = await signInWithEmailAndPassword(auth, email, password);
-                
-                // VERIFICACIÓN DEL CORREO
-                if (userCredential.user.emailVerified) {
-                    // Si ya hizo clic en el enlace de su correo, lo dejamos pasar
-                    window.location.href = "dashboard.html";
-                } else {
-                    // Si no ha verificado, lo expulsamos inmediatamente
-                    await auth.signOut();
-                    alert("Aún no has verificado tu correo electrónico.\n\nPor favor, revisa tu bandeja de entrada y haz clic en el enlace que te enviamos para poder acceder a tu panel.");
-                }
-                
+                await signInWithEmailAndPassword(auth, email, password);
+                window.location.href = "dashboard.html";
             } catch (error) {
-                alert("Error al iniciar sesión. Verifica que tu correo y contraseña sean correctos.");
+                alert("Correo o contraseña incorrectos. Por favor, verifica tus datos.");
             }
         });
     </script>
