@@ -75,6 +75,16 @@ nav ul li a {
     font-weight: 400; /* Un grosor normal, ni muy delgado ni negrita */
 }
 
+/* Banner promocional arriba del chat */
+        .promo-banner {
+            background: var(--color-primario);
+            color: white;
+            text-align: center;
+            padding: 8px;
+            font-size: 0.9rem;
+        }
+        .promo-banner a { color: white; font-weight: bold; text-decoration: underline; }
+
 /* --- SECCIÓN HERO (Basado en imagen_5.png) --- */
 .hero {
     /* Corrección: agregamos linear-gradient para que funcione el filtro oscuro */
